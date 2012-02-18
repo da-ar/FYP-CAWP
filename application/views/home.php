@@ -44,103 +44,103 @@
             <!-- AJAX loads in the services here --->
             <div class="service">
                 <a href="">
-                    <img src="/images/services/service001.jpg" />
+                    <img src="/images/services/Service001.jpg" />
                     <h3>Student Support Centre</h3>
                 </a>
             </div>
             <div class="service">
                 <a href="">
-                    <img src="/images/services/service002.jpg" />
+                    <img src="/images/services/Service002.jpg" />
                     <h3>Sports Union</h3>
                 </a>
             </div>
             <div class="service">
                 <a href="">
-                    <img src="/images/services/service003.jpg" />
+                    <img src="/images/services/Service003.jpg" />
                     <h3>Sports Union</h3>
                 </a>
             </div>
             <div class="service">
                 <a href="">
-                    <img src="/images/services/service004.jpg" />
+                    <img src="/images/services/Service004.jpg" />
                     <h3>Students Union Shop</h3>
                 </a>
             </div>
             <div class="service">
                 <a href="">
-                    <img src="/images/services/service005.jpg" />
+                    <img src="/images/services/Service005.jpg" />
                     <h3>Volunteering Centre</h3>
                 </a>
             </div>
             <div class="service">
                 <a href="">
-                    <img src="/images/services/service006.jpg" />
+                    <img src="/images/services/Service006.jpg" />
                     <h3>Students Union - Catering</h3>
                 </a>
             </div>
             <div class="service">
                 <a href="">
-                    <img src="/images/services/service007.jpg" />
+                    <img src="/images/services/Service007.jpg" />
                     <h3>Law Society</h3>
                 </a>
             </div>
             <div class="service">
                 <a href="">
-                    <img src="/images/services/service008.jpg" />
+                    <img src="/images/services/Service008.jpg" />
                     <h3>Christian Union</h3>
                 </a>
             </div>
             <div class="service">
                 <a href="">
-                    <img src="/images/services/service009.jpg" />
+                    <img src="/images/services/Service009.jpg" />
                     <h3>Mass</h3>
                 </a>
             </div>
             <div class="service">
                 <a href="">
-                    <img src="/images/services/service010.jpg" />
+                    <img src="/images/services/Service010.jpg" />
                     <h3>UUJ Chaplaincy</h3>
                 </a>
             </div>
             <div class="service">
                 <a href="">
-                    <img src="/images/services/service011.jpg" />
+                    <img src="/images/services/Service011.jpg" />
                     <h3>Prayer Space</h3>
                 </a>
             </div>
             <div class="service">
                 <a href="">
-                    <img src="/images/services/service012.jpg" />
+                    <img src="/images/services/Service012.jpg" />
                     <h3>Student Support Centre</h3>
                 </a>
             </div>
             <div class="service">
                 <a href="">
-                    <img src="/images/services/service013.jpg" />
+                    <img src="/images/services/Service013.jpg" />
                     <h3>Disability Services</h3>
                 </a>
             </div>
             <div class="service">
                 <a href="">
-                    <img src="/images/services/service014.jpg" />
+                    <img src="/images/services/Service014.jpg" />
                     <h3>Fitness Classes</h3>
                 </a>
             </div>
             <div class="service">
                 <a href="">
-                    <img src="/images/services/service015.jpg" />
+                    <img src="/images/services/Service015.jpg" />
                     <h3>Sports Clubs</h3>
                 </a>
             </div>
             <div class="service">
                 <a href="">
-                    <img src="/images/services/service016.jpg" />
+                    <img src="/images/services/Service016.jpg" />
                     <h3>Career Development Centre</h3>
                 </a>
             </div>
             <div class="service">
                 <a href="">
-                    <img src="/images/services/service017.jpg" />
+                    <img src="/images/services/Service017.jpg" />
                     <h3>Drop-in Sessions</h3>
                 </a>
             </div>
