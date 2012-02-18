@@ -66,6 +66,15 @@ td { vertical-align: top; }
    Author: Dave Armstrong
    ========================================================================== */
 
+
+html {
+	background: url(/images/bg.png) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
 nav {
     background:#333;
     color:#fff !important;
@@ -89,7 +98,7 @@ nav ul li a:hover {
 }
 
 #main {
-    width:90%; margin: 20px auto;
+    width:80%; margin: 20px auto;
     min-height:150px;
 }
 
@@ -98,7 +107,7 @@ nav ul li a:hover {
     z-index:500!important;
 }
 #loc_info {
-    background:#ccc;
+    background:#fff;
     color:#333;
     font-weight:bold;
     padding:5px;
@@ -118,31 +127,25 @@ nav ul li a:hover {
 }
 
 .service h3 {
-    font-family: 'Chelsea Market', cursive;
     position:absolute; bottom:0; left:0;
-    font-size:300%; margin:0; padding:0;
-    color:#fff;
-    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.55);
-    max-width:300px;
-    
+    font-size:300%; margin:10px; padding:0;
+    line-height: 80%;
+    font-weight:bolder;
+    color: yellow;
+    -webkit-text-stroke: 1px #4e5e2e;
 }
 
 .service a {
     text-decoration:none !important;
 }
-.service a:hover h3 {
-    color:#06e;
-}
-
 
 /* Styles the service box links */
 .service {
 
-    background:rgba(0, 0, 0, 0.25);
+    background:rgba(255, 255, 255, 0.75);
     color:#333;
-    padding:5px; 
+    padding:10px; 
     margin:5px;
-    border:1px solid #000;
 
     border-radius: 5px;
     -moz-border-radius: 5px;
@@ -151,7 +154,12 @@ nav ul li a:hover {
 }
 
 footer {
-    padding
+    margin-top:50px;
+    border-top:4px solid #fff;
+    background:#4e5e2e;
+    padding:20px;
+    color:#fff;
+    height:150px;
     
 }
 

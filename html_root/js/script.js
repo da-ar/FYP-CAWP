@@ -15,6 +15,7 @@ $(document).ready(function(){
 		'<param name="mayscript" value="true"></param>',
 		'<param name="id" value="sniffer"></param>',
 	  '</object'].join('\n'));
+        
 
 });
 

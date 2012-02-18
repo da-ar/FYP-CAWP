@@ -15,7 +15,7 @@
 
     <!-- CSS concatenated and minified via ant build script-->
     <link rel="stylesheet" href="css/style.css">
-    <link href='http://fonts.googleapis.com/css?family=Chelsea+Market' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Cabin+Sketch:700' rel='stylesheet' type='text/css'>
     <!-- end CSS-->
 
     <script src="js/libs/modernizr-2.0.6.min.js"></script>
@@ -37,7 +37,7 @@
     </header>
     <div id="main" role="main">
         <div id="logo_pane">
-            <img src="/images/logo2.png" width="250" height="114" alt="Ferret Logo" id="logo" />
+            <img src="/images/logo2.png" width="250" height="118" alt="Ferret Logo" id="logo" />
             <div id="loc_info"></div>
         </div>        
         <div id="service_content">
