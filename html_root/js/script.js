@@ -19,19 +19,41 @@ $(document).ready(function(){
 
 });
 
-$(window).load(function(){
-    // load masonry
-    $('#main').masonry({
-        itemSelector: '.service',
-        isFitWidth: true,
-        isAnimated: true
-    });
-});
-
 
 // deals with the macsniffer output
 function displayMac(text){
     $("#loc_info").html($("#loc_info").html() + "<pre>" + text + "</pre>");
+    // now that this is done we can load in the services
+    loadServices();
+}
+
+function loadServices(){
+    
+    $("#service_content").load('/services.html', function(response, status, xhr) {
+        
+        if (status == "error") {
+            
+            $("#service_content").html('<div id="service_load_error">Unable to load services</div>');
+            
+        } else {
+            
+            console.log("ajax loaded");
+
+            $("#service_content").imagesLoaded(function() {
+
+                console.log("images loaded");
+
+                    $('#main').masonry({
+                        itemSelector: '.service',
+                        isFitWidth: true,
+                        isAnimated: true
+                    });
+
+            });
+        }
+       
+    });    
+    
 }
 
 
