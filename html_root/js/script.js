@@ -14,7 +14,7 @@ $(document).ready(function(){
 		'<param name="code" value="com.B00528996.MacSniffer"></param>',
 		'<param name="mayscript" value="true"></param>',
 		'<param name="id" value="sniffer"></param>',
-	  '</object'].join('\n'));
+	  '</object'].join('\n'));        
         
 
 });
@@ -48,6 +48,9 @@ function loadServices(){
                         isFitWidth: true,
                         isAnimated: true
                     });
+                    
+                    
+                 attachInfoListener();   
 
             });
         }
@@ -56,7 +59,30 @@ function loadServices(){
     
 }
 
+function attachInfoListener(){
+    $(".service a").click(function(){
+        
+         $("#info_modal").load($(this).attr("href"), function(response, status, xhr) {
+        
+            if (status == "error") {
 
+                $("#info_modal").html('<div id="service_load_error">Unable to load information</div>');
+
+            }
+
+        });  
+        
+        $("#info_modal").modal({onOpen: function (dialog) {
+	dialog.overlay.fadeIn('slow', function () {
+		dialog.container.fadeIn('fast', function () {
+			dialog.data.fadeIn('fast');
+		});
+            });
+        }});
+        return false;
+        
+    });
+}
 
 
 

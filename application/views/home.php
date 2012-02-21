@@ -15,7 +15,7 @@
 
     <!-- CSS concatenated and minified via ant build script-->
     <link rel="stylesheet" href="css/style.css">
-    <link href='http://fonts.googleapis.com/css?family=Cabin+Sketch:700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Rock+Salt' rel='stylesheet' type='text/css'>
     <!-- end CSS-->
 
     <script src="js/libs/modernizr-2.0.6.min.js"></script>
@@ -23,7 +23,6 @@
 
 <body>
 
-  <div id="container">
     <header>
         <nav>
             <ul>
@@ -49,8 +48,8 @@
     <footer>
 
     </footer>
-  </div> <!--! end of #container -->
-
+  
+  <div id="info_modal"></div>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\/script>')</script>
