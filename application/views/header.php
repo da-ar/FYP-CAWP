@@ -26,10 +26,8 @@
     <header>
         <nav>
             <ul>
-                <li><a onclick="reloadApp();">Refresh Location</a></li>
-                <li><a href="/profile/timetable">Your Timetable</a></li>
-                <li><a href="/profile">Your Profile</a></li>
-                <li><a href="/auth/logout">Sign Out</a></li>                
+                <li><a href="">Your Profile</a></li>
+                <li><a href="">Sign Out</a></li>                
             </ul>
             <div style="clear:both"></div>
         </nav>        
@@ -37,34 +35,5 @@
     <div id="main" role="main">
         <div id="logo_pane">
             <img src="/images/logo2.png" width="250" height="118" alt="Ferret Logo" id="logo" />
-            <div id="loc_info"></div>
         </div>        
-        <div id="service_content">
-            <!-- AJAX loads in the services here --->
-            <div id="loading_services">Ferreting out your local services...</div>
-        </div>
-    </div>
-    <div id="applet">Loading Applet...</div>
-    <footer>
-
-    </footer>
-  
-  <div id="info_modal"></div>
-
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\/script>')</script>
-
-
-  <!-- scripts concatenated and minified via ant build script-->
-  <script defer src="js/plugins.js"></script>
-  <script defer src="js/script.js"></script>
-  <!-- end scripts-->
-
-
-  <!--[if lt IE 7 ]>
-    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
-    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
-  <![endif]-->
-  
-</body>
-</html>
+      

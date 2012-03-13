@@ -2,13 +2,17 @@
 
 */
 
+var showAnim = true;
+var timer = null;
+var lastFetch = null;
+
 $(document).ready(function(){
 
 
     // load in the MacSniffer Applet
     $("#applet").html([
 	  '<object', 
-	  'classid="java:com.B00528996.MacSniffer"',
+	  'classid="java:com.B00528996.MacSniffer" id="sniffer"',
 	  'type="application/x-java-applet" width="1" height="1">',
 		'<param name="archive" value="/util/MacSniffer.jar"></param>',
 		'<param name="code" value="com.B00528996.MacSniffer"></param>',
@@ -19,43 +23,69 @@ $(document).ready(function(){
 
 });
 
-
 // deals with the macsniffer output
 function displayMac(text){
-    $("#loc_info").html($("#loc_info").html() + "<pre>" + text + "</pre>");
+    $("#loc_info").html("<pre>" + text + "</pre>");
     // now that this is done we can load in the services
+    
     loadServices();
+    clearTimeout(timer);
+    timer = setTimeout('backgroundFetch()', 30000);
+    
+}
+
+// when the user initiates a location refresh
+function reloadApp(){
+    showAnim = true;
+    document.applets[0].init();
+}
+
+
+// when the application initiates a location refresh
+function backgroundFetch(){
+    showAnim = false;
+    document.applets[0].init();
 }
 
 function loadServices(){
     
-    $("#service_content").load('/services.html', function(response, status, xhr) {
-        
-        if (status == "error") {
-            
-            $("#service_content").html('<div id="service_load_error">Unable to load services</div>');
-            
-        } else {
-            
-            console.log("ajax loaded");
+    $.ajax({
+           url : '/services.html',
+           cache : false,
+           success : function(data){
 
-            $("#service_content").imagesLoaded(function() {
-
-                console.log("images loaded");
-
-                    $('#main').masonry({
-                        itemSelector: '.service',
-                        isFitWidth: true,
-                        isAnimated: true
+                if(lastFetch == null){
+                    $("#service_content").html(data);
+                   
+                    $("#service_content").imagesLoaded(function() {
+                        $('#main').masonry({
+                            itemSelector: '.service',
+                            isFitWidth: true,
+                            isAnimated: showAnim
+                            });
+                        attachInfoListener();      
+                            
+                    });    
+                        
+                    lastFetch = data;    
+                    
+                } else if(data !== lastFetch){
+                   
+                   $("#service_content").html(data);
+                   
+                    $("#service_content").imagesLoaded(function() {
+                        $('#main').append( data ).masonry( 'appended', data );
+                        attachInfoListener();   
                     });
-                    
-                    
-                 attachInfoListener();   
-
-            });
-        }
-       
-    });    
+                    lastFetch = data;
+                }
+                
+           },
+           error : function(){
+                $("#service_content").html('<div id="service_load_error">Unable to load services</div>');                  
+           }
+        
+    });
     
 }
 

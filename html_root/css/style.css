@@ -103,7 +103,8 @@ nav ul li a:hover {
 
 #main {
     width:80%; margin: 0 auto;
-    padding-bottom: 50px;
+    padding-bottom: 250px;
+    overflow:visible !important;
 }
 
 #logo_pane {

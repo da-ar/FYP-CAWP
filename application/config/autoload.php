@@ -52,7 +52,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('Doctrine');
+$autoload['libraries'] = array('Doctrine', 'session', 'ion_auth');
 
 
 /*
@@ -64,7 +64,7 @@ $autoload['libraries'] = array('Doctrine');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array();
+$autoload['helper'] = array('url','form');
 
 
 /*
