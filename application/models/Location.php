@@ -49,6 +49,11 @@ class Location {
     */
     private $floor;
     
+    /**
+    * @Column(type="boolean")
+    */
+    private $isMall;
+    
      /**
      * @OneToMany(targetEntity="Service", mappedBy="Location")  
      * @var Service[]
@@ -82,6 +87,14 @@ class Location {
 
     public function set_floor($floor) {
         $this->floor = $floor;
+    }
+    
+    public function get_isMall() {
+        return $this->isMall;
+    }
+
+    public function set_isMall($isMall) {
+        $this->isMall = $isMall;
     }
 
     public function get_Service() {
