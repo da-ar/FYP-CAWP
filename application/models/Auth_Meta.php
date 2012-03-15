@@ -71,13 +71,11 @@ class Auth_Meta {
     
     /**
      * @ManyToMany(targetEntity="Interest", inversedBy="Auth_Meta")
-     * @JoinTable(name="users_vs_interests")
      */
     private $Interests;
     
     /**
      * @ManyToMany(targetEntity="Service", inversedBy="Auth_Meta")
-     * @JoinTable(name="users_vs_services")
      */
     private $Services;
     
@@ -88,84 +86,12 @@ class Auth_Meta {
     }
     
     
-    public function get_id() {
-        return $this->id;
-    }
-
-    public function set_id($id) {
-        $this->id = $id;
-    }
-
-    public function get_name() {
-        return $this->name;
-    }
-
-    public function set_name($name) {
-        $this->name = $name;
-    }
-
-    public function get_rfid_token() {
-        return $this->rfid_token;
-    }
-
-    public function set_rfid_token($rfid_token) {
-        $this->rfid_token = $rfid_token;
-    }
-
-    public function get_course() {
-        return $this->course;
-    }
-
-    public function set_course($course) {
-        $this->course = $course;
-    }
-
-    public function get_timetable() {
-        return $this->timetable;
-    }
-
-    public function set_timetable($timetable) {
-        $this->timetable = $timetable;
-    }
-
-    public function get_isAdmin() {
-        return $this->isAdmin;
-    }
-
-    public function set_isAdmin($isAdmin) {
-        $this->isAdmin = $isAdmin;
-    }
-
-    public function get_isServiceOwner() {
-        return $this->isServiceOwner;
-    }
-
-    public function set_isServiceOwner($isServiceOwner) {
-        $this->isServiceOwner = $isServiceOwner;
-    }
+    public function __get($property){
+        return $this->$property;
+    }  
     
-    public function get_Interests() {
-        return $this->Interests;
-    }
-
-    public function set_Interests($Interests) {
-        $this->Interests = $Interests;
-    }
-    
-    public function add_Interests(Interest $Interest){
-        $this->Interests[] = $Interest;
-    }
-
-    public function get_Services() {
-        return $this->Services;
-    }
-
-    public function set_Services($Services) {
-        $this->Services = $Services;
-    }
-    
-    public function add_Services(Service $Services){
-        $this->Services[] = $Services;
+    public function __set($property,$value){
+        $this->$property = $value;
     }
 
 

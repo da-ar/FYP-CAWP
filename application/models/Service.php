@@ -68,89 +68,25 @@ class Service {
     private $Location;
     
     /**
-     * @ManyToMany(targetEntity="Interest", inversedBy="Service")
-     * @JoinTable(name="services_vs_interests")
+     * @ManyToMany(targetEntity="Interest", inversedBy="Service", cascade={"persist,remove"})
      */
     private $Interests;
     
     
     function  __construct()  {
         // default values
-        $this->set_isSpecial(FALSE);
+        $this->isSpecial = FALSE;
         
         $this->Interests = new ArrayCollection();
     }
     
-    public function get_id() {
-        return $this->id;
+    public function __get($property){
+        return $this->$property;
+    }  
+    
+    public function __set($property,$value){
+        $this->$property = $value;
     }
-
-    public function set_id($id) {
-        $this->id = $id;
-    }
-
-    public function get_name() {
-        return $this->name;
-    }
-
-    public function set_name($name) {
-        $this->name = $name;
-    }
-
-    public function get_body() {
-        return $this->body;
-    }
-
-    public function set_body($body) {
-        $this->body = $body;
-    }
-
-    public function get_url() {
-        return $this->url;
-    }
-
-    public function set_url($url) {
-        $this->url = $url;
-    }
-
-    public function get_image_bg() {
-        return $this->image_bg;
-    }
-
-    public function set_image_bg($image_bg) {
-        $this->image_bg = $image_bg;
-    }
-
-    public function get_isSpecial() {
-        return $this->isSpecial;
-    }
-
-    public function set_isSpecial($isSpecial) {
-        $this->isSpecial = $isSpecial;
-    }
-
-    public function get_Location() {
-        return $this->Location;
-    }
-
-    public function set_Location($Location) {
-        $this->Location = $Location;
-    }
-
-    public function get_Interests() {
-        return $this->Interests;
-    }
-
-    public function set_Interests($Interests) {
-        $this->Interests = $Interests;
-    }
-
-    public function add_Interests(Interest $Interest){
-        $this->Interests[] = $Interest;
-    }
-
-   
-   
 }
 
 namespace Repositories;

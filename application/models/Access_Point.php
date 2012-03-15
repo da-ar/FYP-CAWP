@@ -21,7 +21,7 @@ namespace models;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @Entity
+ * @Entity(repositoryClass="Repositories\Access_Point_Repository")
  * @Table(name="access_points",indexes={@index(name="bssid_idx", columns={"bssid"})})
  */
 
@@ -47,32 +47,44 @@ class Access_Point {
     private $Location;
     
     
-    public function get_id() {
-        return $this->id;
+    public function __construct(){
+      $this->Location = new ArrayCollection();
     }
-
-    public function set_id($id) {
-        $this->id = $id;
+    
+    public function __get($property){
+        return $this->$property;
+    }  
+    
+    public function __set($property,$value){
+        $this->$property = $value;
     }
-
-    public function get_bssid() {
-        return $this->bssid;
-    }
-
-    public function set_bssid($bssid) {
-        $this->bssid = $bssid;
-    }
-
-    public function get_Location() {
-        return $this->Location;
-    }
-
-    public function set_Location($Location) {
-        $this->Location = $Location;
-    }   
     
    
 }
+
+
+
+namespace Repositories;
+use Doctrine\ORM\EntityRepository;
+
+class Access_Point_Repository extends EntityRepository {
+    
+    
+    public function get_Location($bssid)
+    {
+        $loc = $this->_em->createQuery("SELECT l.block, l.floor, l.isMall FROM models\Access_Point ap JOIN
+                                                      ap.Location l
+                                        WHERE ap.bssid = ?1");
+        $loc->setParameter(1, $bssid);
+        $result = $loc->getResult();
+        
+        
+        return $result[0]["block"] . $result[0]["floor"];
+        
+    }
+    
+}
+
 
 /* End of file Access_Point.php */
 /* Location: ./application/models/Access_Point.php */

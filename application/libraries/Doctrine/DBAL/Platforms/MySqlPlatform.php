@@ -101,31 +101,6 @@ class MySqlPlatform extends AbstractPlatform
         return 'CONCAT(' . join(', ', (array) $args) . ')';
     }
 
-    public function getDateDiffExpression($date1, $date2)
-    {
-        return 'DATEDIFF(' . $date1 . ', ' . $date2 . ')';
-    }
-
-    public function getDateAddDaysExpression($date, $days)
-    {
-        return 'DATE_ADD(' . $date . ', INTERVAL ' . $days . ' DAY)';
-    }
-
-    public function getDateSubDaysExpression($date, $days)
-    {
-        return 'DATE_SUB(' . $date . ', INTERVAL ' . $days . ' DAY)';
-    }
-
-    public function getDateAddMonthExpression($date, $months)
-    {
-        return 'DATE_ADD(' . $date . ', INTERVAL ' . $months . ' MONTH)';
-    }
-
-    public function getDateSubMonthExpression($date, $months)
-    {
-        return 'DATE_SUB(' . $date . ', INTERVAL ' . $months . ' MONTH)';
-    }
-
     public function getListDatabasesSQL()
     {
         return 'SHOW DATABASES';
@@ -291,11 +266,6 @@ class MySqlPlatform extends AbstractPlatform
         return true;
     }
 
-    public function supportsInlineColumnComments()
-    {
-        return true;
-    }
-
     public function getShowDatabasesSQL()
     {
         return 'SHOW DATABASES';
@@ -306,16 +276,9 @@ class MySqlPlatform extends AbstractPlatform
         return "SHOW FULL TABLES WHERE Table_type = 'BASE TABLE'";
     }
 
-    public function getListTableColumnsSQL($table, $database = null)
+    public function getListTableColumnsSQL($table)
     {
-        if ($database) {
-            return "SELECT COLUMN_NAME AS Field, COLUMN_TYPE AS Type, IS_NULLABLE AS `Null`, ".
-                   "COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, EXTRA AS Extra, COLUMN_COMMENT AS Comment, " .
-                   "CHARACTER_SET_NAME AS CharacterSet, COLLATION_NAME AS CollactionName ".
-                   "FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . $database . "' AND TABLE_NAME = '" . $table . "'";
-        } else {
-            return 'DESCRIBE ' . $table;
-        }
+        return 'DESCRIBE ' . $table;
     }
 
     /**
@@ -371,13 +334,7 @@ class MySqlPlatform extends AbstractPlatform
      *                              'comment' => 'Foo',
      *                              'charset' => 'utf8',
      *                              'collate' => 'utf8_unicode_ci',
-     *                              'engine' => 'innodb',
-     *                              'foreignKeys' => array(
-     *                                  new ForeignKeyConstraint(),
-     *                                  new ForeignKeyConstraint(),
-     *                                  new ForeignKeyConstraint(),
-     *                                  // etc
-     *                              )
+     *                              'type'    => 'innodb',
      *                          );
      *
      * @return void
@@ -460,9 +417,7 @@ class MySqlPlatform extends AbstractPlatform
         }
 
         foreach ($diff->addedColumns AS $fieldName => $column) {
-            $columnArray = $column->toArray();
-            $columnArray['comment'] = $this->getColumnComment($column);
-            $queryParts[] = 'ADD ' . $this->getColumnDeclarationSQL($column->getQuotedName($this), $columnArray);
+            $queryParts[] = 'ADD ' . $this->getColumnDeclarationSQL($column->getQuotedName($this), $column->toArray());
         }
 
         foreach ($diff->removedColumns AS $column) {
@@ -472,28 +427,20 @@ class MySqlPlatform extends AbstractPlatform
         foreach ($diff->changedColumns AS $columnDiff) {
             /* @var $columnDiff Doctrine\DBAL\Schema\ColumnDiff */
             $column = $columnDiff->column;
-            $columnArray = $column->toArray();
-            $columnArray['comment'] = $this->getColumnComment($column);
             $queryParts[] =  'CHANGE ' . ($columnDiff->oldColumnName) . ' '
-                    . $this->getColumnDeclarationSQL($column->getQuotedName($this), $columnArray);
+                    . $this->getColumnDeclarationSQL($column->getQuotedName($this), $column->toArray());
         }
 
         foreach ($diff->renamedColumns AS $oldColumnName => $column) {
-            $columnArray = $column->toArray();
-            $columnArray['comment'] = $this->getColumnComment($column);
             $queryParts[] =  'CHANGE ' . $oldColumnName . ' '
-                    . $this->getColumnDeclarationSQL($column->getQuotedName($this), $columnArray);
+                    . $this->getColumnDeclarationSQL($column->getQuotedName($this), $column->toArray());
         }
 
         $sql = array();
         if (count($queryParts) > 0) {
             $sql[] = 'ALTER TABLE ' . $diff->name . ' ' . implode(", ", $queryParts);
         }
-        $sql = array_merge(
-            $this->getPreAlterTableIndexForeignKeySQL($diff),
-            $sql,
-            $this->getPostAlterTableIndexForeignKeySQL($diff)
-        );
+        $sql = array_merge($sql, $this->_getAlterTableIndexForeignKeySQL($diff));
         return $sql;
     }
     
@@ -610,6 +557,23 @@ class MySqlPlatform extends AbstractPlatform
     {
         return 'ALTER TABLE ' . $table . ' DROP PRIMARY KEY';
     }
+    
+    /**
+     * Gets the SQL to drop a table.
+     *
+     * @param string $table The name of table to drop.
+     * @override
+     */
+    public function getDropTableSQL($table)
+    {
+        if ($table instanceof \Doctrine\DBAL\Schema\Table) {
+            $table = $table->getQuotedName($this);
+        } else if(!is_string($table)) {
+            throw new \InvalidArgumentException('MysqlPlatform::getDropTableSQL() expects $table parameter to be string or \Doctrine\DBAL\Schema\Table.');
+        }
+
+        return 'DROP TABLE ' . $table;
+    }
 
     public function getSetTransactionIsolationSQL($level)
     {
@@ -663,31 +627,5 @@ class MySqlPlatform extends AbstractPlatform
     public function getVarcharMaxLength()
     {
         return 65535;
-    }
-    
-    protected function getReservedKeywordsClass()
-    {
-        return 'Doctrine\DBAL\Platforms\Keywords\MySQLKeywords';
-    }
-
-    /**
-     * Get SQL to safely drop a temporary table WITHOUT implicitly committing an open transaction.
-     *
-     * MySQL commits a transaction implicitly when DROP TABLE is executed, however not
-     * if DROP TEMPORARY TABLE is executed.
-     *
-     * @throws \InvalidArgumentException
-     * @param $table
-     * @return string
-     */
-    public function getDropTemporaryTableSQL($table)
-    {
-        if ($table instanceof \Doctrine\DBAL\Schema\Table) {
-            $table = $table->getQuotedName($this);
-        } else if(!is_string($table)) {
-            throw new \InvalidArgumentException('getDropTableSQL() expects $table parameter to be string or \Doctrine\DBAL\Schema\Table.');
-        }
-
-        return 'DROP TEMPORARY TABLE ' . $table;
     }
 }

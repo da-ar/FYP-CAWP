@@ -108,124 +108,17 @@ class Auth_User {
      */
     private $Auth_Meta;
     
-    public function get_id() {
-        return $this->id;
-    }
-
-    public function set_id($id) {
-        $this->id = $id;
-    }
-
-    public function get_group_id() {
-        return $this->group_id;
-    }
-
-    public function set_group_id($group_id) {
-        $this->group_id = $group_id;
-    }
-
-    public function get_ip_address() {
-        return $this->ip_address;
-    }
-
-    public function set_ip_address($ip_address) {
-        $this->ip_address = $ip_address;
-    }
-
-    public function get_username() {
-        return $this->username;
-    }
-
-    public function set_username($username) {
-        $this->username = $username;
-    }
-
-    public function get_password() {
-        return $this->password;
-    }
-
-    public function set_password($password) {
-        $this->password = $password;
-    }
-
-    public function get_salt() {
-        return $this->salt;
-    }
-
-    public function set_salt($salt) {
-        $this->salt = $salt;
-    }
-
-    public function get_email() {
-        return $this->email;
-    }
-
-    public function set_email($email) {
-        $this->email = $email;
-    }
-
-    public function get_activation_code() {
-        return $this->activation_code;
-    }
-
-    public function set_activation_code($activation_code) {
-        $this->activation_code = $activation_code;
-    }
-
-    public function get_forgotten_password_code() {
-        return $this->forgotten_password_code;
-    }
-
-    public function set_forgotten_password_code($forgotten_password_code) {
-        $this->forgotten_password_code = $forgotten_password_code;
-    }
-
-    public function get_remember_code() {
-        return $this->remember_code;
-    }
-
-    public function set_remember_code($remember_code) {
-        $this->remember_code = $remember_code;
-    }
-
-    public function get_created_on() {
-        return $this->created_on;
-    }
-
-    public function set_created_on($created_on) {
-        $this->created_on = $created_on;
-    }
-
-    public function get_last_login() {
-        return $this->last_login;
-    }
-
-    public function set_last_login($last_login) {
-        $this->last_login = $last_login;
-    }
-
-    public function get_active() {
-        return $this->active;
-    }
-
-    public function set_active($active) {
-        $this->active = $active;
-    }
-
-    public function get_Auth_Group() {
-        return $this->Auth_Group;
-    }
-
-    public function set_Auth_Group($Auth_Group) {
-        $this->Auth_Group = $Auth_Group;
-    }
-
-    public function get_Auth_Meta() {
-        return $this->Auth_Meta;
-    }
-
-    public function set_Auth_Meta($Auth_Meta) {
-        $this->Auth_Meta = $Auth_Meta;
+    public function __construct() {
+        $this->Auth_Group = new ArrayCollection();
+        $this->Auth_Meta = new ArrayCollection();
+    }    
+    
+    public function __get($property){
+        return $this->$property;
+    }  
+    
+    public function __set($property,$value){
+        $this->$property = $value;
     }
    
 }

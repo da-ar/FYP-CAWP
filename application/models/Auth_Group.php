@@ -57,44 +57,12 @@ class Auth_Group {
       $this->Auth_Users = new ArrayCollection();
     }
     
-    public function get_id() {
-        return $this->id;
-    }
-
-    public function set_id($id) {
-        $this->id = $id;
-    }
-
-    public function get_name() {
-        return $this->name;
-    }
-
-    public function set_name($name) {
-        $this->name = $name;
-    }
-
-    public function get_description() {
-        return $this->description;
-    }
-
-    public function set_description($description) {
-        $this->description = $description;
-    }
-
-    public function get_Auth_User() {
-        return $this->auth_user;
-    }
-
-    public function set_Auth_User($auth_user) {
-        $this->auth_user = $auth_user;
-    }
+    public function __get($property){
+        return $this->$property;
+    }  
     
-    public function add_Auth_User(Auth_User $Auth_User){
-        $this->Auth_Users[] = $Auth_User;
-    }
-    
-    public function get_Auth_Users(){
-        return $this->Auth_Users->toArray();
+    public function __set($property,$value){
+        $this->$property = $value;
     }
 
     

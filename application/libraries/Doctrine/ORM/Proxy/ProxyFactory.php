@@ -165,16 +165,14 @@ class ProxyFactory
     {
         $methods = '';
 
-        $methodNames = array();
         foreach ($class->reflClass->getMethods() as $method) {
             /* @var $method ReflectionMethod */
-            if ($method->isConstructor() || in_array(strtolower($method->getName()), array("__sleep", "__clone")) || isset($methodNames[$method->getName()])) {
+            if ($method->isConstructor() || in_array(strtolower($method->getName()), array("__sleep", "__clone"))) {
                 continue;
             }
-            $methodNames[$method->getName()] = true;
 
             if ($method->isPublic() && ! $method->isFinal() && ! $method->isStatic()) {
-                $methods .= "\n" . '    public function ';
+                $methods .= PHP_EOL . '    public function ';
                 if ($method->returnsReference()) {
                     $methods .= '&';
                 }
@@ -210,10 +208,10 @@ class ProxyFactory
                 }
 
                 $methods .= $parameterString . ')';
-                $methods .= "\n" . '    {' . "\n";
-                $methods .= '        $this->__load();' . "\n";
+                $methods .= PHP_EOL . '    {' . PHP_EOL;
+                $methods .= '        $this->__load();' . PHP_EOL;
                 $methods .= '        return parent::' . $method->getName() . '(' . $argumentString . ');';
-                $methods .= "\n" . '    }' . "\n";
+                $methods .= PHP_EOL . '    }' . PHP_EOL;
             }
         }
 

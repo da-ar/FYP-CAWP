@@ -306,14 +306,13 @@ class MsSqlPlatform extends AbstractPlatform
      */
     public function getListTablesSQL()
     {
-        // "sysdiagrams" table must be ignored as it's internal SQL Server table for Database Diagrams
-        return "SELECT name FROM sysobjects WHERE type = 'U' AND name != 'sysdiagrams' ORDER BY name";
+        return "SELECT name FROM sysobjects WHERE type = 'U' ORDER BY name";
     }
 
     /**
      * @override
      */
-    public function getListTableColumnsSQL($table, $database = null)
+    public function getListTableColumnsSQL($table)
     {
         return 'exec sp_columns @table_name = ' . $table;
     }
@@ -628,12 +627,12 @@ class MsSqlPlatform extends AbstractPlatform
         if (is_array($item)) {
             foreach ($item as $key => $value) {
                 if (is_bool($value) || is_numeric($item)) {
-                    $item[$key] = ($value) ? 1 : 0;
+                    $item[$key] = ($value) ? 'TRUE' : 'FALSE';
                 }
             }
         } else {
             if (is_bool($item) || is_numeric($item)) {
-                $item = ($item) ? 1 : 0;
+                $item = ($item) ? 'TRUE' : 'FALSE';
             }
         }
         return $item;
@@ -774,11 +773,6 @@ class MsSqlPlatform extends AbstractPlatform
         return ' ';
     }
 
-    protected function getReservedKeywordsClass()
-    {
-        return 'Doctrine\DBAL\Platforms\Keywords\MsSQLKeywords';
-    }
-
     /**
      * Quotes a string so that it can be safely used as a table or column name,
      * even if it is a reserved word of the platform.
@@ -792,6 +786,6 @@ class MsSqlPlatform extends AbstractPlatform
      */
     public function quoteIdentifier($str)
     {
-        return "[" . str_replace("]", "][", $str) . "]";
+        return "[" . $str . "]";
     }
 }

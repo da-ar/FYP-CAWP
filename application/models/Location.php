@@ -65,48 +65,12 @@ class Location {
       $this->Service = new ArrayCollection();
     }
     
-    public function get_id() {
-        return $this->id;
-    }
-
-    public function set_id($id) {
-        $this->id = $id;
-    }
-
-    public function get_block() {
-        return $this->block;
-    }
-
-    public function set_block($block) {
-        $this->block = $block;
-    }
-
-    public function get_floor() {
-        return $this->floor;
-    }
-
-    public function set_floor($floor) {
-        $this->floor = $floor;
-    }
+    public function __get($property){
+        return $this->$property;
+    }  
     
-    public function get_isMall() {
-        return $this->isMall;
-    }
-
-    public function set_isMall($isMall) {
-        $this->isMall = $isMall;
-    }
-
-    public function get_Service() {
-        return $this->Service;
-    }
-
-    public function set_Service($Service) {
-        $this->Service = $Service;
-    }
-
-     public function add_Service(Service $Service){
-        $this->Service[] = $Service;        
+    public function __set($property,$value){
+        $this->$property = $value;
     }
 
 
