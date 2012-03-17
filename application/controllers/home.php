@@ -49,14 +49,14 @@ class Home extends MY_Controller {
             
             
             foreach ($in_parts as $part){
-                $parsed .= str_pad($part, 2, "0", STR_PAD_LEFT);
                 $count++;
                 if($count < count($in_parts)){
+                    $parsed .= str_pad($part, 2, "0", STR_PAD_LEFT);
                     $parsed .=   ":";
                 }
             }
             
-            return $parsed;
+            return $parsed . "%";
             
         }
         

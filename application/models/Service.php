@@ -72,12 +72,19 @@ class Service {
      */
     private $Interests;
     
+   /**
+     * @OneToMany(targetEntity="Schedule", mappedBy="Service", cascade={"persist"})  
+     * @var Schedule[]
+     */
+    private $Schedule;
+    
     
     function  __construct()  {
         // default values
         $this->isSpecial = FALSE;
         
         $this->Interests = new ArrayCollection();
+        $this->Schedule = new ArrayCollection();
     }
     
     public function __get($property){

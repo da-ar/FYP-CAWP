@@ -36,6 +36,7 @@ class Fixtures extends MY_Controller  {
             $this->em->getClassMetadata('models\Interest'),
             $this->em->getClassMetadata('models\Access_Point'),
             $this->em->getClassMetadata('models\Service'),
+            $this->em->getClassMetadata('models\Schedule'),
             $this->em->getClassMetadata('models\Auth_Group'),
             $this->em->getClassMetadata('models\Auth_User'),
             $this->em->getClassMetadata('models\Auth_Meta')
@@ -105,7 +106,7 @@ class Fixtures extends MY_Controller  {
         //mall near block 2
         $loc7 = new models\Location();
         $loc7->block = "2";
-        $loc7->floor = "G";
+        $loc7->floor = "F";
         $loc7->isMall = true;
         $this->em->persist($loc7);
         
@@ -119,10 +120,23 @@ class Fixtures extends MY_Controller  {
         //mall near Block 5
         $loc9 = new models\Location();
         $loc9->block = "5";
-        $loc9->floor = "G";
+        $loc9->floor = "F";
         $loc9->isMall = true;
         $this->em->persist($loc9);
         
+        //mall near Zest Dining
+        $loc10 = new models\Location();
+        $loc10->block = "Zest ";
+        $loc10->floor = "Dining";
+        $loc10->isMall = true;
+        $this->em->persist($loc10);
+
+        //mall near Zest Cafe
+        $loc11 = new models\Location();
+        $loc11->block = "Zest ";
+        $loc11->floor = "Cafe";
+        $loc11->isMall = true;
+        $this->em->persist($loc11);
         
         // ACCESS POINTS ----------------------------
         
@@ -206,13 +220,13 @@ class Fixtures extends MY_Controller  {
         
         // J_mall_canteen-A
         $ap14 = new models\Access_Point();
-        $ap14->Location = $loc8;
+        $ap14->Location = $loc10;
         $ap14->bssid = "00:0b:0e:32:b4:40";
         $this->em->persist($ap14);
         
         // J_mall_canteen-B
         $ap15 = new models\Access_Point();
-        $ap15->Location = $loc8;
+        $ap15->Location = $loc11;
         $ap15->bssid = "00:0b:0e:32:bb:c0";
         $this->em->persist($ap15);
         
@@ -361,8 +375,11 @@ class Fixtures extends MY_Controller  {
                 $myService->isSpecial = rand(0,1);
                 $myService->image_bg = $randImage;
                 $myService->Interests = $this->create_interest();
-
                 $this->em->persist($myService);
+           
+                $this->create_schedule($myService);
+
+                
                
            }
           
@@ -393,6 +410,8 @@ Aliquam erat volutpat. Vestibulum ante ipsum primis in faucibus orci luctus et u
    private function create_interest(){
        /**
         * returns an array of random interest objects
+        * used for testing
+        * 
         */
        $interests = $this->em->getRepository('models\Interest')->findAll();
        
@@ -406,6 +425,101 @@ Aliquam erat volutpat. Vestibulum ante ipsum primis in faucibus orci luctus et u
        
        return $rtnArr;
        
+       
+   }
+   
+   private function create_schedule($service){
+       /*
+        *  creates a random schedule for a geneated service
+        *  used for testing
+        */
+       
+       
+       $isRecurring = rand(0,1);
+       
+       
+        // work out the start time and end time
+        $start_hour = rand(8,20); // between eight am and 8 pm
+        $end_hour = $start_hour + rand(1,2); // one or two hours in duration
+        
+        $start_time = new DateTime(date('c', gmmktime($start_hour,0,0)));
+        $end_time = new DateTime(date('c', gmmktime($end_hour,0,0)));
+       
+       
+       if($isRecurring){
+           
+           // work out the days that the sevrice will run on
+           $noDays = rand(1,7); // number of days that the service runs
+           $daysUsed = array(); // array to keep track of the days set
+           $daysToSet = array(); // unique days that the service runs
+           
+           for($i=0; $i<=$noDays; $i++){
+               $isSet = false;
+               
+               while(!$isSet){
+                   $day = rand(1,7);
+                   
+                   if(array_search($day, $daysUsed) === false){
+                      // this day has not been used so set it
+                       array_push($daysToSet, $day); 
+                       $isSet = true;
+                   }
+               }
+           }
+           
+           
+           $schedule = new models\Schedule();
+           $schedule->isRecuring = true;
+           if(array_search(1, $daysToSet)){
+               $schedule->mon = true;
+           }
+           if(array_search(2, $daysToSet)){
+               $schedule->tues = true;
+           }
+           if(array_search(3, $daysToSet)){
+               $schedule->weds = true;
+           }
+           if(array_search(4, $daysToSet)){
+               $schedule->thurs = true;
+           }
+           if(array_search(5, $daysToSet)){
+               $schedule->fri = true;
+           }
+           if(array_search(6, $daysToSet)){
+               $schedule->sat = true;
+           }
+           if(array_search(7, $daysToSet)){
+               $schedule->sun = true;
+           }
+           $schedule->start_date = new DateTime("now"); //we dont really care about the start or end dates for recurring services
+           $schedule->start_time = $start_time;
+           $schedule->end_time = $end_time;
+           $schedule->Service = $service;
+           
+           $this->em->persist($schedule);
+           
+           
+           
+       } else {
+           
+           $forward = rand(0,7);
+           $forward_end = rand(0,14);
+           
+           $schedule = new models\Schedule();
+           $schedule->isRecuring = false;
+           $schedule->start_date = new DateTime();
+           $schedule->start_date->add(new DateInterval('P' .$forward .'D')); 
+           $schedule->end_date = new DateTime();
+           $schedule->end_date->add(new DateInterval('P' .$forward_end. 'D'));
+           $schedule->start_time = $start_time;
+           $schedule->end_time = $end_time;
+           $schedule->Service = $service;
+           $this->em->persist($schedule);
+           
+           
+       }
+       
+       $this->em->flush();
        
    }
         

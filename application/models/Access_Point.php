@@ -72,14 +72,25 @@ class Access_Point_Repository extends EntityRepository {
     
     public function get_Location($bssid)
     {
+   
         $loc = $this->_em->createQuery("SELECT l.block, l.floor, l.isMall FROM models\Access_Point ap JOIN
                                                       ap.Location l
-                                        WHERE ap.bssid = ?1");
+                                        WHERE ap.bssid like ?1");
         $loc->setParameter(1, $bssid);
         $result = $loc->getResult();
         
         
-        return $result[0]["block"] . $result[0]["floor"];
+        $strLoc = "UNKNOWN";
+        
+        if(isset($result[0])){
+            if($result[0]["isMall"]){
+                $strLoc = "The Mall near " . $result[0]["block"] . $result[0]["floor"];
+            } else {
+                $strLoc = $result[0]["block"] . $result[0]["floor"];
+            }
+        }
+        
+        return $strLoc;
         
     }
     

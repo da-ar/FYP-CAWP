@@ -24,11 +24,18 @@ $(document).ready(function(){
 });
 
 // deals with the macsniffer output
-function displayMac(text){
-    $("#loc_info").html("<pre>" + text + "</pre>");
+function displayMac(bssid){
+    
+    $.ajax({
+           url : '/home/location/' + bssid,
+           cache : false,
+           success : function(data){
+               $("#loc_info").html("Your location: " + data);
+           }
+    });
     // now that this is done we can load in the services
     
-    loadServices();
+    loadServices(bssid);
     clearTimeout(timer);
     timer = setTimeout('backgroundFetch()', 30000);
     
@@ -47,9 +54,26 @@ function backgroundFetch(){
     document.applets[0].init();
 }
 
-function loadServices(){
+function loadServices(bssid){
     
-    $.ajax({
+    
+      $.ajax({
+           url : '/home/services/' + bssid,
+           cache : false,
+           success : function(data){
+
+                
+                
+           },
+           error : function(){
+                $("#service_content").html('<div id="service_load_error">Unable to load services</div>');                  
+           }
+        
+    });
+    
+}
+    
+/*    $.ajax({
            url : '/services.html',
            cache : false,
            success : function(data){
@@ -86,8 +110,9 @@ function loadServices(){
            }
         
     });
-    
-}
+
+*/
+
 
 function attachInfoListener(){
     $(".service a").click(function(){
