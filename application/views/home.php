@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
     <!-- CSS concatenated and minified via ant build script-->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link href='http://fonts.googleapis.com/css?family=Rock+Salt' rel='stylesheet' type='text/css'>
     <!-- end CSS-->
 
@@ -52,12 +52,42 @@
   <div id="info_modal"></div>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\/script>')</script>
+  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\/script>')
+  var override = false;
+  </script>
 
 
   <!-- scripts concatenated and minified via ant build script-->
-  <script defer src="js/plugins.js"></script>
-  <script defer src="js/script.js"></script>
+        
+  <script defer src="/js/plugins.js"></script>
+  <script defer src="/js/script.js"></script>
+  
+   <?php if($bssid) : ?>
+        <script defer type="text/javascript">
+            $(document).ready(function(){
+                $("#applet").html("");
+                displayMac("<?= $bssid ?>");  
+            });
+        </script>
+    <?php else : ?>
+        <script defer type="text/javascript">
+        $(document).ready(function(){
+
+            // load in the MacSniffer Applet
+            $("#applet").html([
+                '<object', 
+                'classid="java:com.B00528996.MacSniffer" id="sniffer"',
+                'type="application/x-java-applet" width="1" height="1">',
+                        '<param name="archive" value="/util/MacSniffer.jar"></param>',
+                        '<param name="code" value="com.B00528996.MacSniffer"></param>',
+                        '<param name="mayscript" value="true"></param>',
+                        '<param name="id" value="sniffer"></param>',
+                '</object'].join('\n'));        
+
+        });
+        </script>
+    <?php  endif;  ?>
+ 
   <!-- end scripts-->
 
 

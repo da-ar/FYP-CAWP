@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Interest
+ * Day
  * 
  * Description
  * 
@@ -10,7 +10,7 @@
  * @link		http://www.about.me/armstrod
  * @email		armstrong-d4@ulster.ac.uk
  * 
- * @file		Interest.php
+ * @file		Day.php
  * @version		1.0
  * @date		01/03/2012
  * 
@@ -22,11 +22,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @Entity
- * @Table(name="interests")
+ * @Table(name="sch_Days")
  * 
  */
 
-class Interest {
+class Day {
     
     /**
      * @Id
@@ -41,11 +41,13 @@ class Interest {
     */
     private $name;
     
-     /**
-     * @ManyToMany(targetEntity="Service", mappedBy="Interest")
+    /**
+     * @ManyToMany(targetEntity="Schedule", mappedBy="Day")
      */
-    private $Services;
-
+    private $Schedules;
+    
+    public function __construct(){
+    }
     
     public function __get($property){
         return $this->$property;
@@ -54,8 +56,11 @@ class Interest {
     public function __set($property,$value){
         $this->$property = $value;
     }
+
+
+   
    
 }
 
-/* End of file Interest.php */
-/* Location: ./application/models/Interest.php */
+/* End of file Day.php */
+/* Location: ./application/models/Day.php */

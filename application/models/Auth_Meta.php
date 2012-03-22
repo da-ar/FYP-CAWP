@@ -58,12 +58,7 @@ class Auth_Meta {
     * @Column(type="string", length=255, nullable=true)
     */
     private $timetable;
-    
-    /**
-    * @Column(type="boolean")
-    */
-    private $isAdmin;
-    
+       
     /**
     * @Column(type="boolean")
     */
@@ -79,10 +74,18 @@ class Auth_Meta {
      */
     private $Services;
     
+    /**
+     * @OneToMany(targetEntity="Auth_User", mappedBy="Auth_Meta")  
+     * 
+     */
+    private $Auth_Users;
+    
     
     public function __construct() {
+        $this->isServiceOwner = false;
         $this->Interests = new ArrayCollection();
         $this->Services = new ArrayCollection();
+        $this->Auth_Users = new ArrayCollection();
     }
     
     

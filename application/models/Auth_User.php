@@ -97,20 +97,18 @@ class Auth_User {
     private $active;
     
     /**
-     * @ManyToOne(targetEntity="Auth_Group")
+     * @ManyToOne(targetEntity="Auth_Group", cascade={"persist"})
      * @JoinColumn(name="group_id", referencedColumnName="id")
      */
     private $Auth_Group;
     
     /**
-     * @ManyToOne(targetEntity="Auth_Meta")
+     * @ManyToOne(targetEntity="Auth_Meta", cascade={"persist"})
      * @JoinColumn(name="meta_id", referencedColumnName="id")
      */
     private $Auth_Meta;
     
     public function __construct() {
-        $this->Auth_Group = new ArrayCollection();
-        $this->Auth_Meta = new ArrayCollection();
     }    
     
     public function __get($property){
@@ -135,11 +133,18 @@ class Auth_User_Repository extends EntityRepository
                                         WHERE g.name = 'admin'")->getResult();
     }
     
-    public function get_Branch_Users()
+    public function get_Service_Users()
     {
         return $this->_em->createQuery("SELECT u.email, u.id FROM models\Auth_User u JOIN
                                                       u.Auth_Group g
-                                            WHERE g.name = 'branch'")->getResult();
+                                            WHERE g.name = 'service_user'")->getResult();
+    }
+    
+    public function get_Users()
+    {
+        return $this->_em->createQuery("SELECT u.email, u.id FROM models\Auth_User u JOIN
+                                                      u.Auth_Group g
+                                            WHERE g.name = 'student_user'")->getResult();
     }
     
 }

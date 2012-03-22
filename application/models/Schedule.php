@@ -57,44 +57,17 @@ class Schedule {
     private $end_time;
     
     /**
-    * @Column(type="boolean")
-    */
-    private $mon;
+     * @ManyToMany(targetEntity="Day", inversedBy="Schedule")
+     * @JoinTable(name="schedule_day",
+     *      joinColumns={@JoinColumn(name="schedule_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@JoinColumn(name="day_id", referencedColumnName="id")})
+     */
+    private $Days;
     
     /**
     * @Column(type="boolean")
     */
-    private $tues;
-    
-    /**
-    * @Column(type="boolean")
-    */
-    private $weds;
-    
-    /**
-    * @Column(type="boolean")
-    */
-    private $thurs;
-    
-    /**
-    * @Column(type="boolean")
-    */
-    private $fri;
-    
-    /**
-    * @Column(type="boolean")
-    */
-    private $sat;
-    
-    /**
-    * @Column(type="boolean")
-    */
-    private $sun;
-    
-    /**
-    * @Column(type="boolean")
-    */
-    private $isRecuring;
+    private $isRecurring;
     
     /**
      * @ManyToOne(targetEntity="Service", cascade={"persist"})
@@ -106,15 +79,8 @@ class Schedule {
     
     public function __construct(){
       $this->Service = new ArrayCollection();
+      $this->Days = new ArrayCollection();
       // default values
-      $this->mon = false;
-      $this->tues = false;
-      $this->weds = false;
-      $this->thurs = false;
-      $this->fri = false;
-      $this->sat = false;
-      $this->sun = false;
-      
     }
     
     public function __get($property){

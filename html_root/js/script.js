@@ -4,28 +4,10 @@
 
 var showAnim = true;
 var timer = null;
-var lastFetch = null;
-
-$(document).ready(function(){
-
-
-    // load in the MacSniffer Applet
-    $("#applet").html([
-	  '<object', 
-	  'classid="java:com.B00528996.MacSniffer" id="sniffer"',
-	  'type="application/x-java-applet" width="1" height="1">',
-		'<param name="archive" value="/util/MacSniffer.jar"></param>',
-		'<param name="code" value="com.B00528996.MacSniffer"></param>',
-		'<param name="mayscript" value="true"></param>',
-		'<param name="id" value="sniffer"></param>',
-	  '</object'].join('\n'));        
-        
-
-});
 
 // deals with the macsniffer output
 function displayMac(bssid){
-    
+
     $.ajax({
            url : '/home/location/' + bssid,
            cache : false,
@@ -37,8 +19,9 @@ function displayMac(bssid){
     
     loadServices(bssid);
     clearTimeout(timer);
-    timer = setTimeout('backgroundFetch()', 30000);
     
+    timer = setTimeout('backgroundFetch()', 1200000);
+       
 }
 
 // when the user initiates a location refresh
@@ -51,7 +34,10 @@ function reloadApp(){
 // when the application initiates a location refresh
 function backgroundFetch(){
     showAnim = false;
-    document.applets[0].init();
+    if(document.applets[0]){
+        document.applets[0].init();
+    }
+    
 }
 
 function loadServices(bssid){
@@ -61,8 +47,9 @@ function loadServices(bssid){
            url : '/home/services/' + bssid,
            cache : false,
            success : function(data){
-
-                
+               
+                 var obj = $.parseJSON(data);
+                 output_services(obj);
                 
            },
            error : function(){
@@ -71,6 +58,37 @@ function loadServices(bssid){
         
     });
     
+}
+
+function output_services(jsonObj){
+    
+   $("#service_content").html("");
+    
+   $.each(jsonObj, function(index, value){
+       
+      html  = '<div class="service"><a href="/home/service_info/' + jsonObj[index]["service"]["id"] + '">';
+      html += '<img src="/images/services/' + jsonObj[index]["service"]["image"] + '" />';
+      html += '<h3>' + jsonObj[index]["service"]["name"] + '</h3></a></div>';
+      
+        /* html  =   "<h1>" + jsonObj[index]["service"]["name"] + "</h1><br />";
+        html +=   '<p><a href="' + jsonObj[index]["service"]["url"] + '" class="button green"><b>Visit:</b> '  + jsonObj[index]["service"]["name"] + '</a></p><br />';
+        html +=   '<div id="info_details">'  + jsonObj[index]["service"]["body"] + '</div>'; */
+        
+        $("#service_content").html($("#service_content").html() + html);
+   });
+   
+   $("#service_content").imagesLoaded(function() {
+        $('#main').masonry({
+            itemSelector: '.service',
+            isFitWidth: true,
+            isAnimated: showAnim
+            });
+        attachInfoListener();      
+
+    });
+ 
+
+ 
 }
     
 /*    $.ajax({

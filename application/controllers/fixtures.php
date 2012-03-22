@@ -20,6 +20,8 @@
 
 class Fixtures extends MY_Controller  {
     
+    private $groups;
+    
     function  __construct()  {
 	parent::__construct();
         
@@ -36,6 +38,7 @@ class Fixtures extends MY_Controller  {
             $this->em->getClassMetadata('models\Interest'),
             $this->em->getClassMetadata('models\Access_Point'),
             $this->em->getClassMetadata('models\Service'),
+            $this->em->getClassMetadata('models\Day'),
             $this->em->getClassMetadata('models\Schedule'),
             $this->em->getClassMetadata('models\Auth_Group'),
             $this->em->getClassMetadata('models\Auth_User'),
@@ -55,7 +58,11 @@ class Fixtures extends MY_Controller  {
         $this->db_tool();
         $this->_locations_and_access_points();
         $this->_interests();
+        $this->_days();
         $this->_generate_services();
+        $this->_auth();
+        $this->_users();
+        $this->_master_user();
     }
     
     // fixtures for all locations and 
@@ -334,6 +341,41 @@ class Fixtures extends MY_Controller  {
        
    }
    
+   function _days(){
+       
+       $day0 = new models\Day();
+       $day0->name = "Mon";
+       $this->em->persist($day0);
+       
+       $day1 = new models\Day();
+       $day1->name = "Tue";
+       $this->em->persist($day1);
+       
+       $day2 = new models\Day();
+       $day2->name = "Wed";
+       $this->em->persist($day2);
+       
+       $day3 = new models\Day();
+       $day3->name = "Thu";
+       $this->em->persist($day3);
+       
+       $day4 = new models\Day();
+       $day4->name = "Fri";
+       $this->em->persist($day4);
+       
+       $day5 = new models\Day();
+       $day5->name = "Sat";
+       $this->em->persist($day5);
+       
+       $day6 = new models\Day();
+       $day6->name = "Sun";
+       $this->em->persist($day6);
+       
+       
+       // commits the changes
+        $this->em->flush();
+   }
+   
    
    function _generate_services(){
        /**
@@ -351,7 +393,7 @@ class Fixtures extends MY_Controller  {
            
            // for each location create a random number
            // of services located in that area
-           $randCount = rand(1,5);
+           $randCount = mt_rand(1,15);
            
            for($i=0;$i<=$randCount;$i++){
                
@@ -367,12 +409,12 @@ class Fixtures extends MY_Controller  {
                 }
                 
                 // use one of the example images available , padding ensures numbers are generated like 001, 002 etc
-                $randImage = "Service" . str_pad(rand(1, 17), 3, "0", STR_PAD_LEFT) . ".jpg";               
+                $randImage = "Service" . str_pad(mt_rand(1, 17), 3, "0", STR_PAD_LEFT) . ".jpg";               
                 
                 $myService->name = $service_name;
                 $myService->body = $this->lorem();
                 $myService->url = "http://news.bbc.co.uk";
-                $myService->isSpecial = rand(0,1);
+                $myService->isSpecial = mt_rand(0,1);
                 $myService->image_bg = $randImage;
                 $myService->Interests = $this->create_interest();
                 $this->em->persist($myService);
@@ -415,12 +457,33 @@ Aliquam erat volutpat. Vestibulum ante ipsum primis in faucibus orci luctus et u
         */
        $interests = $this->em->getRepository('models\Interest')->findAll();
        
-       $randNum = rand(2,5);
+       $randNum = mt_rand(2,5);
        $randoms = array_rand($interests, $randNum);
        
        $rtnArr = array();
        foreach($randoms as $key){
             array_push($rtnArr, $interests[$key]); 
+       }
+       
+       return $rtnArr;
+       
+       
+   }
+   
+   private function create_day(){
+       /**
+        * returns an array of random day objects
+        * used for testing
+        * 
+        */
+       $days = $this->em->getRepository('models\Day')->findAll();
+       
+       $randNum = mt_rand(2,count($days));
+       $randoms = array_rand($days, $randNum);
+       
+       $rtnArr = array();
+       foreach($randoms as $key){
+            array_push($rtnArr, $days[$key]); 
        }
        
        return $rtnArr;
@@ -435,12 +498,12 @@ Aliquam erat volutpat. Vestibulum ante ipsum primis in faucibus orci luctus et u
         */
        
        
-       $isRecurring = rand(0,1);
+       $isRecurring = mt_rand(0,1);
        
        
         // work out the start time and end time
-        $start_hour = rand(8,20); // between eight am and 8 pm
-        $end_hour = $start_hour + rand(1,2); // one or two hours in duration
+        $start_hour = mt_rand(8,20); // between eight am and 8 pm
+        $end_hour = $start_hour + mt_rand(1,2); // one or two hours in duration
         
         $start_time = new DateTime(date('c', gmmktime($start_hour,0,0)));
         $end_time = new DateTime(date('c', gmmktime($end_hour,0,0)));
@@ -448,49 +511,9 @@ Aliquam erat volutpat. Vestibulum ante ipsum primis in faucibus orci luctus et u
        
        if($isRecurring){
            
-           // work out the days that the sevrice will run on
-           $noDays = rand(1,7); // number of days that the service runs
-           $daysUsed = array(); // array to keep track of the days set
-           $daysToSet = array(); // unique days that the service runs
-           
-           for($i=0; $i<=$noDays; $i++){
-               $isSet = false;
-               
-               while(!$isSet){
-                   $day = rand(1,7);
-                   
-                   if(array_search($day, $daysUsed) === false){
-                      // this day has not been used so set it
-                       array_push($daysToSet, $day); 
-                       $isSet = true;
-                   }
-               }
-           }
-           
-           
            $schedule = new models\Schedule();
-           $schedule->isRecuring = true;
-           if(array_search(1, $daysToSet)){
-               $schedule->mon = true;
-           }
-           if(array_search(2, $daysToSet)){
-               $schedule->tues = true;
-           }
-           if(array_search(3, $daysToSet)){
-               $schedule->weds = true;
-           }
-           if(array_search(4, $daysToSet)){
-               $schedule->thurs = true;
-           }
-           if(array_search(5, $daysToSet)){
-               $schedule->fri = true;
-           }
-           if(array_search(6, $daysToSet)){
-               $schedule->sat = true;
-           }
-           if(array_search(7, $daysToSet)){
-               $schedule->sun = true;
-           }
+           $schedule->isRecurring = true;
+           $schedule->Days = $this->create_day();
            $schedule->start_date = new DateTime("now"); //we dont really care about the start or end dates for recurring services
            $schedule->start_time = $start_time;
            $schedule->end_time = $end_time;
@@ -498,15 +521,13 @@ Aliquam erat volutpat. Vestibulum ante ipsum primis in faucibus orci luctus et u
            
            $this->em->persist($schedule);
            
-           
-           
        } else {
            
-           $forward = rand(0,7);
-           $forward_end = rand(0,14);
+           $forward = mt_rand(0,7);
+           $forward_end = mt_rand(0,14);
            
            $schedule = new models\Schedule();
-           $schedule->isRecuring = false;
+           $schedule->isRecurring = false;
            $schedule->start_date = new DateTime();
            $schedule->start_date->add(new DateInterval('P' .$forward .'D')); 
            $schedule->end_date = new DateTime();
@@ -523,7 +544,110 @@ Aliquam erat volutpat. Vestibulum ante ipsum primis in faucibus orci luctus et u
        
    }
         
+   
+   function _auth(){
+        // real group data
         
+        $group1 = new models\Auth_Group();
+        $group1->name = "admin";
+        $group1->description = "Administrator";
+        $this->em->persist($group1);
+        
+        $group2 = new models\Auth_Group();
+        $group2->name = "service_user";
+        $group2->description = "Service User";
+        $this->em->persist($group2);
+        
+        $group3 = new models\Auth_Group();
+        $group3->name = "student_user";
+        $group3->description = "Student User";
+        $this->em->persist($group3);
+        
+        // commits the changes
+        $this->em->flush();
+       
+        $groups = array();
+        $groups["group1"]= $group1;
+        $groups["group2"]= $group2;
+        $groups["group3"]= $group3;
+        
+        $this->groups = $groups;
+        
+    }
+    
+    
+    function _users(){
+        // dummy student user data for testing
+        
+        $groups = $this->groups;
+         
+        $pw1 = password_help("password"); // returns an array with the password hashed and salt
+        
+        $meta = new models\Auth_Meta();
+        $meta->name = "Joe Bloggs";
+        $meta->interests = $this->_get_interests();
+        $this->em->persist($meta);
+
+        $user = new models\Auth_User;
+        $user->Auth_Group = $groups["group3"];
+        $user->Auth_Meta = $meta;
+        $user->ip_address = "127.0.0.1";
+        $user->username = "student";
+        $user->password = $pw1["hash"];
+        $user->salt = $pw1["salt"];
+        $user->email = "student@webrench.com";
+        $user->created_on = mktime();
+        $user->last_login = mktime();
+        $user->active = TRUE;
+        $this->em->persist($user);            
+        
+        // commits the changes
+        $this->em->flush();
+    }
+    
+    
+    function _master_user(){
+        // master admin password
+        // will be the same for the live system
+        $groups = $this->groups;
+         
+        
+        $pw = password_help("password");    
+        
+        $meta = new models\Auth_Meta();
+        $meta->name = "Admin";
+        $this->em->persist($meta);
+        
+        $user = new models\Auth_User;
+        $user->Auth_Group = $groups["group1"];
+        $user->Auth_Meta = $meta;
+        $user->ip_address = "127.0.0.1";
+        $user->username = "admin";
+        $user->password = $pw["hash"];
+        $user->salt = $pw["salt"];
+        $user->email = "armstrong-d4@email.ulster.ac.uk";
+        $user->created_on = mktime();
+        $user->last_login = mktime();
+        $user->active = TRUE;
+        $this->em->persist($user);
+        
+        // commits the changes
+        $this->em->flush();
+    }
+    
+    function _get_interests(){
+        
+        // TODO: random interest generation for a user
+        
+        $interests = $this->em->getRepository('models\Interest')->findAll();
+        $total = count($interests);
+        
+        $randInterest = mt_rand(1,$total);
+        
+        
+    }
+   
+   
    
 }
 
