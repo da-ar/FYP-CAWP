@@ -32,5 +32,6 @@
         <div id="logo_pane"><a href="/home/index/">
             <img src="/images/logo2.png" width="250" height="118" alt="Ferret Logo" id="logo" />
             </a>
+            <div style="clear:both"></div>
         </div>        
       

@@ -33,6 +33,7 @@
             <img src="/images/logo2.png" width="250" height="118" alt="Ferret Logo" id="logo" />
             </a>
             <div id="loc_info"></div>
+            <div style="clear:both"></div>
         </div>        
         <div id="service_content">
             <!-- AJAX loads in the services here --->
