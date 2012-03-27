@@ -1,4 +1,5 @@
 <?php $this->load->view('header')?>
+<div id="sub_page_container">
 <h1>Forgot Password</h1>
 <p>Please enter your <?php echo $identity_human;?> so we can send you an email to reset your password.</p>
 <?php
@@ -24,4 +25,5 @@
     <p><?php echo form_submit('submit', 'Submit');?></p>
       
 <?php echo form_close();?>
+</div>    
 <?php $this->load->view('footer')?>

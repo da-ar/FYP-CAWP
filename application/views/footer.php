@@ -1,5 +1,4 @@
     </div>
-    <div id="applet">Loading Applet...</div>
     <footer>
 
     </footer>
@@ -11,8 +10,7 @@
 
 
   <!-- scripts concatenated and minified via ant build script-->
-  <script defer src="js/plugins.js"></script>
-  <script defer src="js/script.js"></script>
+  <script defer src="/js/plugins.js"></script>
   <!-- end scripts-->
 
 

@@ -19,6 +19,14 @@
  
  
 class Home extends MY_Controller {
+    
+    public function __construct(){
+        parent::__construct();
+        
+        // using php native session because of the size of the 
+        // data being stored;
+        session_start();
+    }
 
 		
     public function index($bssid=NULL){
@@ -85,9 +93,27 @@ class Home extends MY_Controller {
 
         $ServiceRep  = $this->em->getRepository('models\Service');
         $context = $this->get_context($parsed);
+        
+        $service_context = $ServiceRep->get_services_in_context($context);
+        
+        if(isset($_SESSION['current_services'])){  
+            // update session variables
+            $_SESSION['previous_services'] = $_SESSION['current_services'];
+            $_SESSION['current_services'] = $service_context;
 
+        } else {
+            // set up the session variables
+            $_SESSION['previous_services'] = array();
+            $_SESSION['current_services'] = $service_context;
+            
+        }
+        
+        $changes = $this->get_changes($_SESSION['previous_services'], $_SESSION['current_services']);
+        $changes["data"] = $service_context;
+        
+       
         $data = array();                  
-        $data["json_data"] = json_encode($ServiceRep->get_services_in_context($context)); 
+        $data["json_data"] = json_encode($changes); 
 
         $this->load->view('service_json', $data);
 
@@ -134,6 +160,28 @@ class Home extends MY_Controller {
         $this->load->view('service_info', $data);
         
         
+    }
+    
+    private function get_changes($prev, $curr){
+        
+        $prev_keys = array();
+        $curr_keys = array();
+        $remove = array();
+        $add = array();
+        
+        foreach($prev as $p){ $prev_keys[] =  $p["id"]; }
+        foreach($curr as $c){ $curr_keys[] =  $c["id"]; }
+        
+        
+        $remove = array_diff($prev_keys, $curr_keys);
+        $add = array_diff($curr_keys, $prev_keys);
+        
+        
+        $keys = array();
+        $keys["remove"] = $remove;
+        $keys["add"] = $add;
+        
+        return $keys;
     }
         
         

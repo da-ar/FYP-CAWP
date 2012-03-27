@@ -169,7 +169,8 @@ class Service_Repository extends EntityRepository
             foreach($service->Interests as $interest){
                     $objArr["interests"][] = $interest->name;    
             }
-
+            
+            $service_item["id"] = $service->id;
             $service_item["service"] = $objArr;
             $service_item["weight"] = $weighted;
             array_push($sorted_array, $service_item);

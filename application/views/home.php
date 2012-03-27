@@ -25,18 +25,13 @@
 
     <header>
         <nav>
-            <ul>
-                <li><a onclick="reloadApp();">Refresh Location</a></li>
-                <li><a href="/profile/timetable">Your Timetable</a></li>
-                <li><a href="/profile">Your Profile</a></li>
-                <li><a href="/auth/logout">Sign Out</a></li>                
-            </ul>
-            <div style="clear:both"></div>
+            <?php $this->load->view('menu'); ?>
         </nav>        
     </header>
     <div id="main" role="main">
-        <div id="logo_pane">
+        <div id="logo_pane"><a href="/home/index/">
             <img src="/images/logo2.png" width="250" height="118" alt="Ferret Logo" id="logo" />
+            </a>
             <div id="loc_info"></div>
         </div>        
         <div id="service_content">
@@ -52,9 +47,7 @@
   <div id="info_modal"></div>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\/script>')
-  var override = false;
-  </script>
+  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\/script>');</script>
 
 
   <!-- scripts concatenated and minified via ant build script-->
@@ -66,8 +59,11 @@
         <script defer type="text/javascript">
             $(document).ready(function(){
                 $("#applet").html("");
-                displayMac("<?= $bssid ?>");  
+                hard_load();
             });
+            function hard_load(){
+                displayMac("<?= $bssid ?>");  
+            }
         </script>
     <?php else : ?>
         <script defer type="text/javascript">

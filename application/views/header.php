@@ -14,26 +14,23 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
     <!-- CSS concatenated and minified via ant build script-->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link href='http://fonts.googleapis.com/css?family=Rock+Salt' rel='stylesheet' type='text/css'>
     <!-- end CSS-->
 
-    <script src="js/libs/modernizr-2.0.6.min.js"></script>
+    <script src="/js/libs/modernizr-2.0.6.min.js"></script>
 </head>
 
 <body>
 
     <header>
         <nav>
-            <ul>
-                <li><a href="">Your Profile</a></li>
-                <li><a href="">Sign Out</a></li>                
-            </ul>
-            <div style="clear:both"></div>
+            <?php $this->load->view('menu'); ?>
         </nav>        
     </header>
     <div id="main" role="main">
-        <div id="logo_pane">
+        <div id="logo_pane"><a href="/home/index/">
             <img src="/images/logo2.png" width="250" height="118" alt="Ferret Logo" id="logo" />
+            </a>
         </div>        
       
