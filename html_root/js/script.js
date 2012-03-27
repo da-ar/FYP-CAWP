@@ -152,6 +152,9 @@ function update_services(add, remove, data){
         
         $('#service_content').isotope('insert', $newItems);
         $('#service_content').isotope('sortBy', 'weight');
+        
+        // dont forget to attach the info click events to the new services
+        attachInfoListener();      
    });
    
    
