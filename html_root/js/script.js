@@ -4,14 +4,15 @@
 
 var showAnim = true;
 var timer = null;
-var lastFetch = null;
+var initialised = false;
 
-$(document).ready(function(){
+function reset(){
+    console.log("resettting");
     // ensure these are reset upon page load
     showAnim = true;
     timer = null;
-    lastFetch = null;
-});
+    initialised = false;
+}
 
 
 // deals with the macsniffer output
@@ -72,18 +73,14 @@ function loadServices(bssid){
                      obj["add"] !== 'undefined' &&
                         obj["data"] !== 'undefined'){
                     // now check to see if this is an update    
-                    if((obj["remove"].length == 0 && obj["add"].length == 0) && lastFetch == null){
+                    if(initialised == false){
                         // this isnt an update
                             console.log("create");
-                            lastFetch = data; // save the string for comparison
                             output_services(obj["data"]);                     
                     } else {
-                        if(lastFetch != data){
-                            console.log("update");
-                            // things have changed but we want to make small adjustments
-                            lastFetch = data; // save the string for comparison
-                            update_services(obj["add"], obj["remove"], obj["data"]);
-                        }
+                        console.log("updating");
+                        // things have changed but we want to make small adjustments
+                        update_services(obj["add"], obj["remove"], obj["update"], obj["data"]);
                     }
                         
                         
@@ -101,7 +98,9 @@ function loadServices(bssid){
 function output_services(jsonObj){
    console.log("initialise");
     
-   var html = ""; 
+   html = ""; 
+   
+   $('#service_content').html("");
     
    $.each(jsonObj, function(index, value){
       html += create_html_string(jsonObj, index);
@@ -118,13 +117,15 @@ function output_services(jsonObj){
                 sortAscending : false,
                 getSortData : {
                     weight : function ( $elem ) {
-                        return $elem.find('.weight').text();
+                        return parseInt($elem.find('.weight').text(), 10);
                     }
                 }
             });
         attachInfoListener();      
 
     });
+    
+    initialised = true;
  
 }
 
@@ -138,43 +139,60 @@ function create_html_string(data, index){
     return html;
 }
 
-function update_services(add, remove, data){
+function update_services(add, remove, update, data){
     
-    var html = "";
-    
-    $.each(data, function(index, value){
-      if($.inArray(data[index]["service"]["id"], add) != -1){
-          // add the new items
-          console.log("adding", data[index]["service"]["id"]);
-         html += create_html_string(data, index);
-      } 
-      
-   });
-   var $newItems = $(html);
-   
-   $('#service_content').append($newItems);
-   $("#service_content").imagesLoaded(function() {
-       
-        
-        $('#service_content').isotope('insert', $newItems);
-        
-        // remove
+    // remove
         remove_items = new Array();
         $.each(remove, function(index, value){
                 console.log("removing", value);
                 obj = $("#service_" + value);
-                $(obj).remove();
                 $('#service_content').isotope( 'remove', obj );
+                //$(obj).remove();
+                
         });
+    
+    $('#service_content').isotope('reLayout');
         
-        // dont forget to attach the info click events to the new services
-        attachInfoListener();      
+    
+    html = "";
+    
+    $.each(data, function(index, value){
+      if($.inArray(data[index]["service"]["id"], add) != -1){
+          // add the new items
+         console.log("adding", data[index]["service"]["id"]);
+         html += create_html_string(data, index);
+      } 
+      
    });
    
+   newItems = $(html);
    
+   newItems.imagesLoaded(function(){
+        $('#service_content').isotope('insert', newItems);
+        $('#service_content').isotope('reLayout');
+   });
    
-}
-    
+        // dont forget to attach the info click events to the new services
+        attachInfoListener();      
+        
+        
+        // update services
+        $.each(data, function(index, value){
+            if($.inArray(data[index]["service"]["id"], update) != -1){
+                // add the new items
+                console.log("updating", data[index]["service"]["id"]);
+                obj = $("#service_" + data[index]["service"]["id"]);
+                $("img", obj).attr("src", "/images/services/" + data[index]["service"]["image"]);
+                $("h3", obj).html(data[index]["service"]["name"]);
+                $("a", obj).attr("href", "/home/service_info/" + data[index]["service"]["id"]);
+                $(".weight", obj).html(data[index]["weight"]);
+            }       
+        });
+        
+        $('#service_content').isotope( 'updateSortData', $('.service','#service_content') ).isotope('reLayout');
+
+
+}    
 
 function attachInfoListener(){
     $(".service a").click(function(){

@@ -168,18 +168,21 @@ class Home extends MY_Controller {
         $curr_keys = array();
         $remove = array();
         $add = array();
+        $update = array();
         
         foreach($prev as $p){ $prev_keys[] =  $p["id"]; }
         foreach($curr as $c){ $curr_keys[] =  $c["id"]; }
         
         
-        $remove = array_diff($prev_keys, $curr_keys);
-        $add = array_diff($curr_keys, $prev_keys);
+        $remove = array_merge(array_diff($prev_keys, $curr_keys));
+        $add = array_merge(array_diff($curr_keys, $prev_keys));
+        $update = array_merge(array_diff($curr_keys, $remove));
         
         
         $keys = array();
         $keys["remove"] = $remove;
         $keys["add"] = $add;
+        $keys["update"] = $update;
         
         return $keys;
     }

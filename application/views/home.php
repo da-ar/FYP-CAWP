@@ -59,6 +59,7 @@
    <?php if($bssid) : ?>
         <script defer type="text/javascript">
             $(document).ready(function(){
+                reset();
                 $("#applet").html("");
                 hard_load();
             });
@@ -69,6 +70,7 @@
     <?php else : ?>
         <script defer type="text/javascript">
         $(document).ready(function(){
+            reset();
 
             // load in the MacSniffer Applet
             $("#applet").html([
