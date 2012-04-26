@@ -57,7 +57,7 @@ class Schedule {
     private $end_time;
     
     /**
-     * @ManyToMany(targetEntity="Day", inversedBy="Schedule")
+     * @ManyToMany(targetEntity="Day", inversedBy="Schedules")
      * @JoinTable(name="schedule_day",
      *      joinColumns={@JoinColumn(name="schedule_id", referencedColumnName="id")},
      *      inverseJoinColumns={@JoinColumn(name="day_id", referencedColumnName="id")})
@@ -70,7 +70,7 @@ class Schedule {
     private $isRecurring;
     
     /**
-     * @ManyToOne(targetEntity="Service", cascade={"persist"})
+     * @ManyToOne(targetEntity="Service", inversedBy="Schedule", cascade={"persist"})
      * @JoinColumn(name="service_id", referencedColumnName="id")
      *   
      */

@@ -10,7 +10,7 @@
  * @link		http://www.about.me/armstrod
  * @email		armstrong-d4@ulster.ac.uk
  * 
- * @file		Home.php
+ * @file		home.php
  * @version		1.0
  * @date		01/21/2012
  * 
@@ -191,5 +191,5 @@ class Home extends MY_Controller {
 
 
 }
-/* End of file Home.php */
-/* Location: ./application/controllers/Home.php */
+/* End of file home.php */
+/* Location: ./application/controllers/home.php */

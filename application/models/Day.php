@@ -42,7 +42,7 @@ class Day {
     private $name;
     
     /**
-     * @ManyToMany(targetEntity="Schedule", mappedBy="Day")
+     * @ManyToMany(targetEntity="Schedule", mappedBy="Days")
      */
     private $Schedules;
     

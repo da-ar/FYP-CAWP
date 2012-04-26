@@ -62,13 +62,13 @@ class Service {
     private $isSpecial;
     
     /**
-     * @ManyToOne(targetEntity="Location")
+     * @ManyToOne(targetEntity="Location", inversedBy="Service")
      * @JoinColumn(name="location_id", referencedColumnName="id")
      */
     private $Location;
     
     /**
-     * @ManyToMany(targetEntity="Interest", inversedBy="Service", cascade={"persist,remove"})
+     * @ManyToMany(targetEntity="Interest", inversedBy="Services", cascade={"persist,remove"})
      * @JoinTable(name="service_interest",
      *      joinColumns={@JoinColumn(name="service_id", referencedColumnName="id")},
      *      inverseJoinColumns={@JoinColumn(name="interest_id", referencedColumnName="id")})
@@ -80,6 +80,11 @@ class Service {
      * @var Schedule[]
      */
     private $Schedule;
+    
+     /**
+     * @ManyToMany(targetEntity="Auth_Meta", mappedBy="Services")
+     */
+    private $Auth_Meta;
     
     
     function  __construct()  {

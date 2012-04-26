@@ -119,7 +119,8 @@ function output_services(jsonObj){
                     weight : function ( $elem ) {
                         return parseInt($elem.find('.weight').text(), 10);
                     }
-                }
+                },
+                 masonry: { columnWidth: $("#service_content").width() / 330 }
             });
         attachInfoListener();      
 
@@ -128,6 +129,14 @@ function output_services(jsonObj){
     initialised = true;
  
 }
+
+$(window).smartresize(function(){
+  $("#service_content").isotope({
+    // update columnWidth to a percentage of container width
+    masonry: { columnWidth: $("#service_content").width() / 330 }
+  });
+});
+
 
 function create_html_string(data, index){
     html = "";
@@ -172,8 +181,7 @@ function update_services(add, remove, update, data){
         $('#service_content').isotope('reLayout');
    });
    
-        // dont forget to attach the info click events to the new services
-        attachInfoListener();      
+        
         
         
         // update services
@@ -192,6 +200,11 @@ function update_services(add, remove, update, data){
         $('#service_content').isotope( 'updateSortData', $('.service','#service_content') ).isotope('reLayout');
 
 
+        $('#service_content').imagesLoaded(function(){
+           // dont forget to attach the info click events to the new services
+            attachInfoListener();
+        });
+        
 }    
 
 function attachInfoListener(){

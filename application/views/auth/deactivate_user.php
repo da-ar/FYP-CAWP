@@ -1,5 +1,5 @@
 <?php $this->load->view('header')?>
-
+<div id="sub_page_container">
 	<div class="pageTitle">Deactivate User</div>
     <div class="pageTitleBorder"></div>
 	<p>Are you sure you want to deactivate the user '<?php echo $user['username']; ?>'</p>
@@ -19,5 +19,5 @@
       <p><?php echo form_submit('submit', 'Submit');?></p>
 
     <?php echo form_close();?>
-
+</div>
 <?php $this->load->view('footer')?>

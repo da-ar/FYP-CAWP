@@ -102,8 +102,7 @@ nav ul li a:hover {
 }
 
 #main {
-    width:83%; margin: 0 auto;
-    padding-bottom: 250px;
+    width:85%; margin: 0 auto;
     overflow:visible !important;
 }
 
@@ -273,6 +272,19 @@ footer {
 #info_modal h1, #sub_page_container h1 {
     font-family: 'Rock Salt', cursive;
 }
+
+div#error {
+    background:red;
+    padding:20px;
+    margin:10px auto;
+    width:80%;
+    color:#fff;
+    
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
 #sub_page_container h1 {
     margin-bottom: 20px;
     
@@ -303,7 +315,7 @@ footer {
 }
 
 .cellRow label {
-    font-size:150%;
+    font-size:120%;
     display:block;
     width:130px; float:left;
     padding:3px; font-weight: bold;
@@ -371,7 +383,10 @@ label.error {
     font-size:110%;
 }
 
-
+.interest {
+    float:left; width:25%;
+    padding:10px;
+}
 
 
 

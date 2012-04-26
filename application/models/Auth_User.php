@@ -97,18 +97,20 @@ class Auth_User {
     private $active;
     
     /**
-     * @ManyToOne(targetEntity="Auth_Group", cascade={"persist"})
+     * @ManyToOne(targetEntity="Auth_Group", inversedBy="Auth_Users", cascade={"persist"})
      * @JoinColumn(name="group_id", referencedColumnName="id")
      */
     private $Auth_Group;
     
     /**
-     * @ManyToOne(targetEntity="Auth_Meta", cascade={"persist"})
+     * @ManyToOne(targetEntity="Auth_Meta", inversedBy="Auth_Users", cascade={"persist"})
      * @JoinColumn(name="meta_id", referencedColumnName="id")
      */
     private $Auth_Meta;
     
     public function __construct() {
+        $this->Auth_Group = new ArrayCollection();
+        $this->Auth_Meta = new ArrayCollection();        
     }    
     
     public function __get($property){

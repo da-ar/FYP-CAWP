@@ -21,7 +21,7 @@ namespace models;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @Entity
+ * @Entity(repositoryClass="Repositories\Interest_Repository")
  * @Table(name="interests")
  * 
  */
@@ -42,9 +42,14 @@ class Interest {
     private $name;
     
      /**
-     * @ManyToMany(targetEntity="Service", mappedBy="Interest")
+     * @ManyToMany(targetEntity="Service", mappedBy="Interests")
      */
     private $Services;
+    
+     /**
+     * @ManyToMany(targetEntity="Auth_Meta", mappedBy="Interests")
+     */
+    private $Auth_Meta;
 
     
     public function __get($property){
@@ -55,6 +60,27 @@ class Interest {
         $this->$property = $value;
     }
    
+}
+
+namespace Repositories;
+use Doctrine\ORM\EntityRepository;
+
+class Interest_Repository extends EntityRepository
+{
+    public function get_interests($ids)
+    {
+        
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('i')
+                ->from('models\Interest', 'i')
+                ->where($qb->expr()->in('i.id', $ids));
+        $query = $qb->getQuery()->getResult();
+        
+        return $query;
+        
+        
+    }
+    
 }
 
 /* End of file Interest.php */

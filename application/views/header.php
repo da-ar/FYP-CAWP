@@ -17,7 +17,6 @@
     <link rel="stylesheet" href="/css/style.css">
     <link href='http://fonts.googleapis.com/css?family=Rock+Salt' rel='stylesheet' type='text/css'>
     <!-- end CSS-->
-
     <script src="/js/libs/modernizr-2.0.6.min.js"></script>
 </head>
 

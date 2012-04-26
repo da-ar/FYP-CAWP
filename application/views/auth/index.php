@@ -1,11 +1,11 @@
 <?php $this->load->view('header')?>
-
+<div id="sub_page_container">
 	<h1>Users</h1>
 	<p>Below is a list of the users.</p>
 	
 	<div id="infoMessage"><?php echo $message;?></div>
 	
-	<table cellpadding=0 cellspacing=10>
+	<table cellpadding="10" width="80%">
 		<tr>
 			<th>Name</th>
 			<th>Email</th>
@@ -25,5 +25,5 @@
 	<p><a href="<?php echo site_url('auth/create_user');?>">Create a new user</a></p>
 	
 	<p><a href="<?php echo site_url('auth/logout'); ?>">Logout</a></p>
-	
+</div>    	
 <?php $this->load->view('footer')?>

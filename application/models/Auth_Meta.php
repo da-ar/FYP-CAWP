@@ -85,7 +85,6 @@ class Auth_Meta {
         $this->isServiceOwner = false;
         $this->Interests = new ArrayCollection();
         $this->Services = new ArrayCollection();
-        $this->Auth_Users = new ArrayCollection();
     }
     
     

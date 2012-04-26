@@ -54,7 +54,7 @@
 	 * Columns in your meta table,
 	 * id not required.
 	 **/
-	$config['columns']             = array('name', 'branch_id');
+	$config['columns']             = array('name', 'rfid_token', 'course', 'timetable', 'isServiceOwner');
 	
 	/**
 	 * A database column which is used to

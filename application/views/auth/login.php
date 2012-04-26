@@ -45,5 +45,24 @@
     <p><?= anchor('auth/forgot_password', 'Forgotten your password?'); ?></p>
       
     <?php echo form_close();?>
+     
+    
+    
+    
 </div>    
-<?php $this->load->view('footer')?>
+<?php 
+    
+    $data["scripts"] = '$(document).ready(function(){
+        $("#login_main").validate({
+                errorPlacement: function(error, element) {
+                        error.appendTo( element.parent() );
+                }
+        }); 
+    });';
+
+
+
+
+    $this->load->view('footer', $data);
+        
+        ?>
