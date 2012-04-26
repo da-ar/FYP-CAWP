@@ -120,7 +120,9 @@ class Home extends MY_Controller {
     }
 
     public function get_context($bssid){
-
+        
+        $this->load->helper('doctrine');
+        
         $context = array();
 
         // date & time context
@@ -130,12 +132,16 @@ class Home extends MY_Controller {
         $context["start_time"] = date("H:i:s",strtotime("+2 hours"));
         $context["end_time"] = date("H:i:s");
 
-        // interest context
-        $context["interests"] = array();
-
-        if($this->ion_auth->logged_in()){
-            // TODO: fetch the user interest list                
+        
+        if (!$this->ion_auth->logged_in()){
+            $context["interests"] = array();
+        } else {
+            $user = $this->em->find('models\Auth_User', $this->ion_auth->get_user()->id);
+            // interest context
+            $context["interests"] = getIds($user->Auth_Meta->Interests);
         }
+        
+
         
         // get the location context
         $APRep  = $this->em->getRepository('models\Access_Point');

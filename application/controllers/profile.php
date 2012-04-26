@@ -35,6 +35,7 @@ class Profile extends MY_Controller {
         
         
          $this->load->helper('form');
+         $this->load->helper('doctrine');
          $this->load->library('form_validation');
         
     }
@@ -49,26 +50,15 @@ class Profile extends MY_Controller {
         $data["course"] = $this->user->Auth_Meta->course;
         $data["timetable"] = $this->user->Auth_Meta->timetable;
         $data["isOwner"] = $this->user->Auth_Meta->isServiceOwner;
-        $data["user_interests"] = $this->_getIds($this->user->Auth_Meta->Interests);
-        $data["user_services"] = $this->_getIds($this->user->Auth_Meta->Services);
+        $data["user_interests"] = getIds($this->user->Auth_Meta->Interests);
+        $data["user_services"] = getIds($this->user->Auth_Meta->Services);
         $data["interests"] = $this->em->getRepository('models\Interest')->findAll();
         
         
         return $data;
         
     }
-
-    private function _getIds($obj){
-        // takes a doctrine model object and returns an array of the ids    
-        $idArr = array();
-        
-        foreach($obj as $item){
-            array_push($idArr, $item->id);
-        }
-        
-        return $idArr;
-        
-    }
+    
 		
     public function index(){
         $this->load->view('profile/index', $this->_getDisplayDataArr());
