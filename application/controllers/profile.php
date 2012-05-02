@@ -81,12 +81,22 @@ class Profile extends MY_Controller {
         if ($this->form_validation->run() == TRUE){
           // no dramas so update the data     
            
-            $ids = $this->input->post('interests');
-            $ids = array_map('intval', $ids); // converts array of strings to array of ints
+            if($this->input->post('interests')){
+                $ids = $this->input->post('interests');
+                $ids = array_map('intval', $ids); // converts array of strings to array of ints
+            } else {
+                $ids = array();
+            }
+            
                         
             $this->user->Auth_Meta->name = $this->input->post('name');
             $this->user->email = $this->input->post('email');
-            $this->user->Auth_Meta->Interests = $this->em->getRepository('models\Interest')->get_interests($ids);
+            if($this->input->post('interests')){
+                $this->user->Auth_Meta->Interests = $this->em->getRepository('models\Interest')->get_interests($ids);
+            } else {
+                $this->user->Auth_Meta->Interests = array();
+            }
+            
             
             $this->em->persist($this->user);
             $this->em->flush();
