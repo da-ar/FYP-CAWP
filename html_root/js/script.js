@@ -197,7 +197,7 @@ function update_services(add, remove, update, data){
             }       
         });
         
-        $('#service_content').isotope( 'updateSortData', $('.service','#service_content') ).isotope('reLayout');
+        $('#service_content').isotope( 'updateSortData', $('.service','#service_content') ).isotope({ sortBy : 'weight', sortAscending : false }).isotope('reLayout');
 
 
         $('#service_content').imagesLoaded(function(){
