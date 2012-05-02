@@ -215,17 +215,11 @@ class Service_Repository extends EntityRepository
             }
             
         }
+
         // loop throught the associated interests of the service
         foreach($service->Interests as $interest){
             // check to see if the interest is part of the context
-            if(array_search($interest->id, $context["interests"])){
-                $total_weight = $total_weight + $interest_weight;
-            }
-        }
-        
-        foreach($service->Interests as $interest){
-            // check to see if the interest is part of the context
-            if(array_search($interest->id, $context["interests"])){
+            if(array_search($interest->id, $context["interests"]) !== false){
                 $total_weight = $total_weight + $interest_weight;
             }
         }
