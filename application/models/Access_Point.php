@@ -41,7 +41,7 @@ class Access_Point {
     private $bssid;
     
     /**
-     * @ManyToOne(targetEntity="Location")
+     * @ManyToOne(targetEntity="Location", inversedBy="Access_Points", cascade={"persist"})
      * @JoinColumn(name="location_id", referencedColumnName="id")
      */
     private $Location;

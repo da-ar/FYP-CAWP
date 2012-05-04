@@ -60,9 +60,15 @@ class Location {
      */
     private $Service;
     
+    /**
+     * @OneToMany(targetEntity="Access_Point", mappedBy="Location")     
+     */
+    private $Access_Points;
+    
     
     public function __construct(){
       $this->Service = new ArrayCollection();
+      $this->Access_Points = new ArrayCollection();
     }
     
     public function __get($property){
@@ -73,7 +79,13 @@ class Location {
         $this->$property = $value;
     }
 
-
+    function getLocationString(){
+        if($this->isMall){
+            return "The Mall near " .$this->block . $this->floor;            
+        } else {
+            return $this->block . $this->floor;
+        }
+    }
    
    
 }

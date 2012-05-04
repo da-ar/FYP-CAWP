@@ -1,7 +1,5 @@
     </div>
-    <footer>
 
-    </footer>
   
   <div id="info_modal"></div>
 

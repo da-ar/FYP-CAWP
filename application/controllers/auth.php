@@ -60,10 +60,15 @@ class Auth extends My_Controller {
 			$remember = (bool) $this->input->post('remember');
 
 			if ($this->ion_auth->login($this->input->post('email'), $this->input->post('password'), $remember))
-			{ //if the login is successful
-				//redirect them back to the dashboard
-				$this->session->set_flashdata('message', $this->ion_auth->messages());
-				redirect("/home", 'refresh');
+			{ 
+                                    
+                            $this->session->set_flashdata('message', $this->ion_auth->messages());
+                            
+                                if($this->ion_auth->is_admin() || $this->ion_auth->is_group('service_user')){
+                                   redirect("/dashboard", 'refresh');
+                                } else {
+                                   redirect("/home", 'refresh');
+                                }
 			}
 			else
 			{ //if the login was un-successful

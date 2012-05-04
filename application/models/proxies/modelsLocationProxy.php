@@ -48,10 +48,16 @@ class modelsLocationProxy extends \models\Location implements \Doctrine\ORM\Prox
         return parent::__set($property, $value);
     }
 
+    public function getLocationString()
+    {
+        $this->__load();
+        return parent::getLocationString();
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'block', 'floor', 'isMall', 'Service');
+        return array('__isInitialized__', 'id', 'block', 'floor', 'isMall', 'Service', 'Access_Points');
     }
 
     public function __clone()

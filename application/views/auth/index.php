@@ -1,11 +1,14 @@
 <?php $this->load->view('header')?>
 <div id="sub_page_container">
 	<h1>Users</h1>
-	<p>Below is a list of the users.</p>
 	
 	<div id="infoMessage"><?php echo $message;?></div>
+        
+        <div id="button_holder">
+            <?= anchor('auth/create_user', 'Create a new user', 'class="button green"') ?> 
+        </div>
 	
-	<table cellpadding="10" width="80%">
+	<table  class="list">
 		<tr>
 			<th>Name</th>
 			<th>Email</th>
@@ -21,9 +24,6 @@
 			</tr>
 		<?php endforeach;?>
 	</table>
-	
-	<p><a href="<?php echo site_url('auth/create_user');?>">Create a new user</a></p>
-	
-	<p><a href="<?php echo site_url('auth/logout'); ?>">Logout</a></p>
+        
 </div>    	
 <?php $this->load->view('footer')?>
