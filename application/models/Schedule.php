@@ -58,9 +58,6 @@ class Schedule {
     
     /**
      * @ManyToMany(targetEntity="Day", inversedBy="Schedules")
-     * @JoinTable(name="schedule_day",
-     *      joinColumns={@JoinColumn(name="schedule_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@JoinColumn(name="day_id", referencedColumnName="id")})
      */
     private $Days;
     

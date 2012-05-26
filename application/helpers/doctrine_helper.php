@@ -9,7 +9,9 @@ function getIds($obj){
     $idArr = array();
 
     foreach($obj as $item){
-        array_push($idArr, $item->id);
+        if(property_exists($item, 'id')){
+            array_push($idArr, $item->id);
+        }        
     }
 
     return $idArr;

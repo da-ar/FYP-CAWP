@@ -2,7 +2,9 @@
 <div id="sub_page_container">
 	<h1>Users</h1>
 	
+        <?php if($message != '') : ?>
 	<div id="infoMessage"><?php echo $message;?></div>
+        <?php endif; ?>
         
         <div id="button_holder">
             <?= anchor('auth/create_user', 'Create a new user', 'class="button green"') ?> 

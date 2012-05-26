@@ -16,6 +16,7 @@
     
     <div id="button_holder">
         <?= anchor('dashboard/services', 'back', 'class="button green"') ?>
+        <?= anchor('schedules/index/' . $service->id, 'Manage Schedule', 'class="button green"') ?>
     </div>
     
     <div id="form">
@@ -69,6 +70,27 @@
             <a href="/images/services/<?= $service->image_bg; ?>" target="_blank">View Image</a>
         <?php endif; ?>
     </div>    
+        <br style="clear:left"/>
+    <div>
+        <h2>Interests</h2>
+        
+        
+        <?php             
+        
+        foreach($interests as $interest) {
+            
+            $status = false;
+            if(array_search($interest->id, $service_interests) !== false){ 
+                $status = true;
+            }
+            
+          echo '<div class="interest"><input type="checkbox" name="interests[]" id="interest_' . $interest->id .  '" value="' . $interest->id . '"' . 
+                  set_checkbox("interests[]", $interest->id, $status) . ' /> <label for="interest_' .$interest->id . '">' . 
+                  $interest->name . '</label></div>';            
+            
+        } ?>
+        <div style="clear:both"></div>
+    </div>       
     
     <p><?php echo form_submit('submit', 'Save');?></p>
     <?php 

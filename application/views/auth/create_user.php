@@ -3,7 +3,9 @@
 	<h1>Create User</h1>
 	<p>Please enter the users information below.</p>
 	
+	<?php if($message != '') : ?>
 	<div id="infoMessage"><?php echo $message;?></div>
+        <?php endif; ?>
 	
     <?php echo form_open("auth/create_user");?>
       <p>Name:<br />

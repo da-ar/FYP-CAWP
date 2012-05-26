@@ -6,6 +6,8 @@
     
     if(validation_errors() != ''){
         echo "<div id='error'><h2>Validation errors</h2><ul>" .  validation_errors('<li>','</li>') . "</ul></div>";
+    } else if ($this->session->flashdata('message')){
+        echo "<div id=\"message\">" . $this->session->flashdata('message')  . "</div>";
     }
 
     echo form_open('profile/update'); 

@@ -101,6 +101,7 @@ class Profile extends MY_Controller {
             $this->em->persist($this->user);
             $this->em->flush();
             
+            $this->session->set_flashdata('message', "Profile Updated");
             
         }
         

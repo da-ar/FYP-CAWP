@@ -125,10 +125,10 @@ class Service_Repository extends EntityRepository
        $query = "
             SELECT  s, i, sc, l
             FROM    models\Service s 
-                    JOIN s.Interests i
+                    LEFT JOIN s.Interests i
                     JOIN s.Schedule sc
                     JOIN s.Location l
-                    JOIN sc.Days d
+                    LEFT JOIN sc.Days d
             WHERE   ((   sc.isRecurring = 1 AND
                         (sc.start_date <= ?1 AND
                         (sc.end_date >= ?1 OR
@@ -234,7 +234,7 @@ class Service_Repository extends EntityRepository
             
             if(($sch->isRecurring && array_search(date("N"), $days)) ||
                     (!$sch->isRecurring && ($sch->start_date->getTimestamp() <= $now &&
-                            ($sch->end_date == NULL || $sch->end_date >= $now)))){
+                            ($sch->end_date == NULL || $sch->end_date->getTimestamp() >= $now)))){
                 // check to see if the schedule  is a good match
                 if($now >= $sch->start_time->getTimestamp() && $now <= $sch->end_time->getTimestamp()){
                     $total_weight = $total_weight + $time_weight;
@@ -246,7 +246,6 @@ class Service_Repository extends EntityRepository
         return $total_weight;
         
     }
-    
 }
 
 /* End of file Service.php */

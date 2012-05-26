@@ -21,7 +21,7 @@ namespace models;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @Entity
+ * @Entity(repositoryClass="Repositories\Day_Repository")
  * @Table(name="sch_Days")
  * 
  */
@@ -60,6 +60,27 @@ class Day {
 
    
    
+}
+
+namespace Repositories;
+use Doctrine\ORM\EntityRepository;
+
+class Day_Repository extends EntityRepository
+{
+    public function get_days($ids)
+    {
+        
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('i')
+                ->from('models\Day', 'i')
+                ->where($qb->expr()->in('i.id', $ids));
+        $query = $qb->getQuery()->getResult();
+        
+        return $query;
+        
+        
+    }
+    
 }
 
 /* End of file Day.php */

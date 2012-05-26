@@ -37,7 +37,7 @@
 	/**
 	 * Default group, use name
 	 */
-	$config['default_group']       = 'student';
+	$config['default_group']       = 'student_user';
 	
 	/**
 	 * Default administrators group, use name

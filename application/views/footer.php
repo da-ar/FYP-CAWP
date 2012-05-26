@@ -23,6 +23,11 @@
 
   <!-- scripts concatenated and minified via ant build script-->
   <script defer src="/js/plugins.js"></script>
+  <script type="text/javascript">
+      $(document).ready(function(){
+        $("#message").delay(10000).fadeOut();
+    });
+  </script>    
   <!-- end scripts-->
 
 
