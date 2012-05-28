@@ -127,17 +127,22 @@ class Service_Repository extends EntityRepository
             FROM    models\Service s 
                     LEFT JOIN s.Interests i
                     JOIN s.Schedule sc
-                    JOIN s.Location l
-                    LEFT JOIN sc.Days d
-            WHERE   ((   sc.isRecurring = 1 AND
-                        (sc.start_date <= ?1 AND
-                        (sc.end_date >= ?1 OR
-                        sc.end_date IS NULL)) 
+                    JOIN s.Location l                    
+            WHERE   sc.id IN (
+                SELECT  sc2.id
+                FROM    models\Service s2
+                        JOIN s2.Schedule sc2
+                        LEFT JOIN sc2.Days d
+                WHERE   
+                    (   sc2.isRecurring = 1 AND
+                        (sc2.start_date <= ?1 AND
+                        (sc2.end_date >= ?1 OR
+                        sc2.end_date IS NULL)) 
                         AND  d.id = ?2) 
                      OR 
-                    (   sc.isRecurring = 0 AND
-                        (sc.start_date <= ?1 AND
-                        sc.end_date >= ?1)
+                    (   sc2.isRecurring = 0 AND
+                        (sc2.start_date <= ?1 AND
+                        sc2.end_date >= ?1)
                     ))";
         
         $services = $this->_em->createQuery($query);

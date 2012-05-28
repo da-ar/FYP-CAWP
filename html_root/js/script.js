@@ -158,10 +158,7 @@ function update_services(add, remove, update, data){
                 $('#service_content').isotope( 'remove', obj );
                 //$(obj).remove();
                 
-        });
-    
-    $('#service_content').isotope('reLayout');
-        
+        });    
     
     html = "";
     
@@ -178,7 +175,6 @@ function update_services(add, remove, update, data){
    
    newItems.imagesLoaded(function(){
         $('#service_content').isotope('insert', newItems);
-        $('#service_content').isotope('reLayout');
    });
    
         
@@ -197,13 +193,18 @@ function update_services(add, remove, update, data){
             }       
         });
         
-        $('#service_content').isotope( 'updateSortData', $('.service','#service_content') ).isotope({ sortBy : 'weight', sortAscending : false }).isotope('reLayout');
-        $('#service_content').isotope('reLayout');
-
+        $('#service_content').isotope( 'updateSortData', $('.service','#service_content') ).isotope({ sortBy : 'weight', sortAscending : false });
+        
         $('#service_content').imagesLoaded(function(){
            // dont forget to attach the info click events to the new services
             attachInfoListener();
+            $('#service_content').isotope('reLayout');
         });
+        
+        
+    
+    
+    
         
 }    
 

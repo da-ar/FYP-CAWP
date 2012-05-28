@@ -57,7 +57,8 @@ class Schedule {
     private $end_time;
     
     /**
-     * @ManyToMany(targetEntity="Day", inversedBy="Schedules")
+     * @ManyToMany(targetEntity="Day", inversedBy="Schedules", cascade={"persist"})
+     * @JoinColumn(name="day_id", referencedColumnName="id")
      */
     private $Days;
     
